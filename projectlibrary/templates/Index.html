@@ -44,21 +44,25 @@
                     <li class="nav-link">
                         <a href="{{url_for('main.home')}}">Home</a>
                     </li>
-<!--
+                    {% if current_user.is_authenticated %}
                     <li class="nav-link">
-                        <a href="colleges.html">Colleges</a>
+                        <a href="#">Colleges</a>
                     </li>
                     <li class="nav-link">
-                        <a href="dashboard.html">Project-Group</a>
+                        <a href="{{url_for('students.dashboard')}}">Project-Group</a>
                     </li>
                     <li class="nav-link">
-                        <a href="studentform.html">Upload</a>
+                        <a href="#">Upload</a>
                     </li>
--->
+                    {% endif %}
                 </ul>
             </div>
             <div class="social text-gray">
-                <button class="btn" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"> Login </button>
+                {% if current_user.is_authenticated %}
+                    <a class="btn" href="{{url_for('main.logout')}}" style="width:auto;"> Logout </a>
+                {% else %}
+                    <button class="btn" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"> Login </button>
+                {% endif %}
             </div>
         </div>
     </nav>

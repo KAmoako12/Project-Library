@@ -1,113 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "student-layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Project Library : Dashboard</title>
+{% block css_files1 %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+{% endblock css_files1 %}
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="./css/all.css">
-    <link rel="stylesheet" href="./css/pdfViewer.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% block content %}
+<!----------------------------- Main Site Section ------------------------------>
 
-    <!-- --------- Owl-Carousel ------------------->
-    <link rel="stylesheet" href="./css/owl.carousel.min.css">
-    <link rel="stylesheet" href="./css/owl.theme.default.min.css">
-
-    <!-- ------------ AOS Library ------------------------- -->
-    <link rel="stylesheet" href="./css/aos.css">
-
-    <!-- Custom Style   -->
-    <link rel="stylesheet" href="./css/Style.css">
-    <link rel="stylesheet" href="./css/lecturerdashboard.css">
-    <link rel="shortcut icon" type="image/jpg" href="https://apps.knust.edu.gh/img/logo.png">
-</head>
-
-<body>
-
-    <!-- ----------------------------  Navigation ---------------------------------------------- -->
-    <nav class="nav">
-        <div class="nav-menu flex-row">
-            <div class="nav-brand">
-                <a href="index.html" class="text-gray"><img src="https://apps.knust.edu.gh/img/logo.png" alt="Knust logo"></a>
-            </div>
-            <div class="toggle-collapse">
-                <div class="toggle-icons">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </div>
-            <div>
-                <ul class="nav-items">
-                    <li class="nav-link">
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="colleges.html">Colleges</a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="dashboard.html">Project-Group</a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="studentform.html">Upload</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="social text-gray">
-                <div class="avatar"><i class="fa fa-user"></i></div>
-                <p>Welcome KAmoako</p>
-                <a href="Index.html" class="logout">
-                    <span class="material-icons" >
-                        logout
-                    </span> 
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ------------x---------------  Navigation --------------------------x------------------- -->
-
-    <!----------------------------- Main Site Section ------------------------------>
-
-    <main>
-        <div class="chapters">
-            <ul>
-                <button><li><a href="">Chapter 1</a></li></button>
-                <button><li><a href="">Chapter 2</a></li></button>
-                <button><li><a href="">Chapter 3</a></li></button>
-                <button><li><a href="">Chapter 4</a></li></button>
-                <button><li><a href="">Chapter 5</a></li></button>
-            </ul>
-        </div>
-        <div class="pdf-container">
-            <iframe src="http://alan.ece.gatech.edu/ECE3040/Lectures/Lecture24-MOS%20Transistors.pdf" width="100%" height="100%">
-            </iframe>
-        </div>
-        <div class="comment">
-            <ul class="comment-list">
-                <li id="comment-62201" class="comment even thread-even depth-1">
-                    <article id="div-comment-62201" class="comment-body">
-                        <footer class="comment-meta">
-                            <div class="comment-author vcard">
-                                <img alt="" src="https://secure.gravatar.com/avatar/c549c2ffb2b22a88245106e5699a9401?s=32&amp;r=g" srcset="https://secure.gravatar.com/avatar/c549c2ffb2b22a88245106e5699a9401?s=64&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32" loading="lazy">                                <b class="fn">Rama Bariya</b> <span class="says">says:</span> </div>
-                            <div class="comment-metadata">
-                                <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">April 15, 2021 at 6:01 am</time></a> </div>
-                        </footer>
-                        <div class="comment-content">
-                            <p>For getting customers to the feedback contact form is very important for us you explain in detail thankyou very much for sharing such a useful piece of information keep sharing and update us.</p>
+<main>
+    <div class="chapters">
+        <ul>
+            <button>
+                <li><a href="">Chapter 1</a></li>
+            </button>
+            <button>
+                <li><a href="">Chapter 2</a></li>
+            </button>
+            <button>
+                <li><a href="">Chapter 3</a></li>
+            </button>
+            <button>
+                <li><a href="">Chapter 4</a></li>
+            </button>
+            <button>
+                <li><a href="">Chapter 5</a></li>
+            </button>
+        </ul>
+    </div>
+    <div class="pdf-container">
+        <iframe src="http://alan.ece.gatech.edu/ECE3040/Lectures/Lecture24-MOS%20Transistors.pdf" width="100%" height="100%">
+        </iframe>
+    </div>
+    <div class="comment">
+        <ul class="comment-list">
+            <li id="comment-62201" class="comment even thread-even depth-1">
+                <article id="div-comment-62201" class="comment-body">
+                    <footer class="comment-meta">
+                        <div class="comment-author vcard">
+                            <img alt="" src="https://secure.gravatar.com/avatar/c549c2ffb2b22a88245106e5699a9401?s=32&amp;r=g" srcset="https://secure.gravatar.com/avatar/c549c2ffb2b22a88245106e5699a9401?s=64&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32" loading="lazy"> <b class="fn">Rama Bariya</b> <span class="says">says:</span>
                         </div>
-                    </article>
-                </li>
-            </ul>
+                        <div class="comment-metadata">
+                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">April 15, 2021 at 6:01 am</time></a>
+                        </div>
+                    </footer>
+                    <div class="comment-content">
+                        <p>For getting customers to the feedback contact form is very important for us you explain in detail thankyou very much for sharing such a useful piece of information keep sharing and update us.</p>
+                    </div>
+                </article>
+            </li>
+        </ul>
 
-        </div>
-    </main>
+    </div>
+</main>
 
-    <!---------------x------------- Main Site Section ---------------x-------------->
-
-
-
-</body>
-
-</html>
+<!---------------x------------- Main Site Section ---------------x-------------->
+{% endblock content %}

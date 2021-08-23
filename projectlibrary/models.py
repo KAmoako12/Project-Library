@@ -18,6 +18,7 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     __abstract__ = True
+    username = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
