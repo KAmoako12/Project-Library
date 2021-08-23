@@ -1,0 +1,212 @@
+* {
+    word-wrap: break-word;
+}
+
+:root {
+    /*      Theme colors        */
+    --text-gray: #3f4954;
+    --text-light: #686666da;
+    --bg-color: #0f0f0f;
+    --white: #ffffff;
+    --midnight: #104f55;
+    /* gradient color   */
+    --sky: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    /*      theme font-family   */
+    --Abel: 'Abel', cursive;
+    --Anton: 'Anton', cursive;
+    --Josefin: 'Josefin', cursive;
+    --Lexend: 'Lexend', cursive;
+    --Livvic: 'Livvic', cursive;
+}
+
+
+/* ---------------- Global Classes ---------------*/
+
+a {
+    text-decoration: none;
+    color: var(--text-gray);
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+ul {
+    list-style-type: none;
+}
+
+h1 {
+    font-family: var(--Lexend);
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-family: var(--Lexend);
+}
+
+h3 {
+    font-family: var(--Abel);
+    font-size: 1.3rem;
+}
+
+button {
+    border: none;
+    border-radius: 2rem;
+    padding: 1rem 3rem;
+    font-size: 1rem;
+    font-family: var(--Livvic);
+    cursor: pointer;
+}
+
+span {
+    font-family: var(--Abel);
+}
+
+.text-gray {
+    color: var(--text-gray);
+}
+
+label {
+    font-family: var(--Lexend);
+    color: var(--text-light);
+}
+
+main {
+    display: flex;
+    gap: 1rem;
+    height: 85vh;
+    margin: 1rem;
+    overflow: hidden
+}
+
+.chapters {
+    min-width: 12rem;
+    padding: 1rem;
+}
+
+.chapters ul {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chapters ul li {
+    width: 100%;
+    border-bottom: 2px solid #aaa;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+/* p {
+    display: block;
+    margin: 12px 0 18px;
+} */
+
+p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.pdf-container {
+    width: 100%;
+}
+
+.comment {
+    flex-basis: 35rem;
+}
+
+
+/***************COMMENT***************************/
+
+.comment .row {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment .form .input-group {
+    width: 90%;
+    height: 50px;
+    margin-bottom: 50px;
+}
+
+.comment .form .input-group label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+    font-family: var(--Livvic);
+}
+
+.comment .form .input-group .btn {
+    margin: 20px 0;
+    display: block;
+    padding: .7rem 2rem;
+    opacity: .8;
+    color: #FFF;
+    background: #00b894;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: .3s ease-in;
+    font-family: var(--Livvic);
+}
+
+.comment .form .input-group .btn:hover {
+    opacity: 1;
+}
+
+.comment .form .input-group input,
+.comment .form .input-group textarea {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #00b894;
+    outline: none;
+    padding: 5px 10px;
+    font-family: var(--Livvic);
+    font-size: 1rem;
+}
+
+.comment .form .input-group.textarea {
+    height: 200px;
+}
+
+.comment .form .input-group.textarea textarea {
+    resize: none;
+}
+
+.comment .prev-comments {
+    margin-top: 50px;
+}
+
+.comment .prev-comments .single-item {
+    background: #FFF;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.comment .prev-comments .single-item h4 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #111;
+}
+
+.comment .prev-comments .single-item a {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #111;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.comment .prev-comments .single-item p {
+    font-size: .9rem;
+    color: #111;
+}
