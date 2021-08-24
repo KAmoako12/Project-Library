@@ -1,0 +1,45 @@
+{% extends "admin-layout.html" %}
+{% block content %}
+<!----------------------------- Main Site Section ------------------------------>
+
+<div class="form" style="margin-top: 2rem;">
+    <form action="" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Name">
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Username">
+
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="Email">
+
+        <label for="staffid">Staff ID</label>
+        <input type="text" id="staffid" name="staffid" placeholder="Staff ID">
+
+        <label>Password</label>
+        <input type="text" id="password" name="password" placeholder="Password">
+        
+        <label for="hod">HOD?: </label>
+        <select id="hod" name="hod">
+            <option value="0">False</option>
+            <option value="1">True</option>
+        </select>
+        
+        <label for="department">Department</label>
+        <input type="text" id="department" name="department" placeholder="Department">
+
+        <label for="college">College </label>
+        <select id="college" name="college">
+            <option value=""></option>
+            <option value="Engineering">College of Engineering</option>
+            <option value="Sciences">College of Science</option>
+            <option value="Health Sciences">College of Health Sciences</option>
+            <option value="Cabe">College of Art and Built Environment</option>
+            <option value="Humanities">College of Humanities and Social Studies</option>
+            <option value="Natural Resources">College of Agriculture and Natural Resources</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<!----------------------------- // Main Site Section ------------------------------>
+{% endblock content %}

@@ -23,7 +23,7 @@ def home():
                 return redirect(url_for('students.dashboard'))
             else:
                 flash('Wrong username/password combination', 'warning')
-        elif lectuter:
+        elif lecturer:
             if lecturer.password == password:
                 login_user(lecturer)
                 return lecturer.username
@@ -32,7 +32,6 @@ def home():
                 
         else:
             flash('Wrong username/password combination', 'warning')
-            
     return render_template("Index.html")
 
 

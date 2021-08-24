@@ -1,0 +1,88 @@
+{% extends "admin-layout.html" %}
+{% block content %}
+
+<!----------------------------- Main Site Section ------------------------------>
+<button><a href="{{url_for('admin.create_student')}}">Add New Student</a></button>
+<button><a href="{{url_for('admin.create_lecturer')}}">Add New Lecturer</a></button>
+<button id="showStudents">Show Students</button>
+<button id="showLecturers">Show Lecturers</button>
+
+{# ask Amoako that they should add modal for the deletion confirmation #}
+
+<div id="studentsTable" class="customers-container">
+    {% if students %}
+    <table id="customers">
+        <thead>
+            <th>ID</th>
+            <th>Index Number</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Programme</th>
+            <th>Email</th>
+            <th colspan="2">Action</th>
+        </thead>
+        {% for student in students %}
+        <tr>
+            <td>{{student.id}}</td>
+            <td>{{student.index_number}}</td>
+            <td>{{student.name}}</td>
+            <td>{{student.username}}</td>
+            <td>{{student.program}}</td>
+            <td>{{student.email}}</td>
+            <td><a href="{{url_for('admin.edit_student', student_id=student.id)}}" class="edit">Edit</a></td>
+            <td><a href="{{url_for('admin.delete_user', user_id=student.id)}}" class="delete">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Student Database</p>
+    {% endif %}
+</div>
+
+<div id="lecturersTable" class="customers-container" style="display: none;">
+    {% if lecturers %}
+    <table id="customers">
+        <thead>
+            <th>ID</th>
+            <th>Staff ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th colspan="2">Action</th>
+        </thead>
+        {% for lecturer in lecturers %}
+        <tr>
+            <td>{{lecturer.id}}</td>
+            <td>{{lecturer.staff_id}}</td>
+            <td>{{lecturer.name}}</td>
+            <td>{{lecturer.username}}</td>
+            <td>{{lecturer.department}}</td>
+            <td>{{lecturer.email}}</td>
+            <td><a href="{{url_for('admin.edit_lecturer', lecturer_id=lecturer.id)}}" class="edit">Edit</a></td>
+            <td><a href="{{url_for('admin.delete_user', user_id=lecturer.id)}}" class="delete">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Lecturer Database</p>
+    {% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+<script>
+$("#showStudents").on('click', function(){
+    $("#studentsTable").css('display', 'block');
+    $("#lecturersTable").css('display', 'none');
+    
+});
+    
+$("#showLecturers").on('click', function(){
+    $("#studentsTable").css('display', 'none');
+    $("#lecturersTable").css('display', 'block');
+    
+});
+</script>
+
+{% endblock content %}

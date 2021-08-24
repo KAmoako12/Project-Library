@@ -1,0 +1,43 @@
+{% extends "admin-layout.html" %}
+{% block content %}
+<!----------------------------- Main Site Section ------------------------------>
+
+<div class="form" style="margin-top: 2rem;">
+    <form action="" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Name" required>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Username" required>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="Email" required>
+
+        <label for="indexnumber">Index Number</label>
+        <input type="text" id="indexnumber" name="indexnumber" placeholder="Index Number" required>
+        
+        <label for="groupid">Group ID</label>
+        <input type="text" id="groupid" name="groupid" placeholder="Group ID" required>
+
+        <label>Password</label>
+        <input type="text" id="password" name="password" placeholder="Password" required>
+
+        <label for="college">College </label>
+        <select id="college" name="college">
+            <option value="">Select One</option>
+            <option value="Engineering">College of Engineering</option>
+            <option value="Sciences">College of Science</option>
+            <option value="Health Sciences">College of Health Sciences</option>
+            <option value="Cabe">College of Art and Built Environment</option>
+            <option value="Humanities">College of Humanities and Social Studies</option>
+            <option value="Natural Resources">College of Agriculture and Natural Resources</option>
+        </select>
+        
+        <label for="programme">Programme</label>
+        <input type="text" id="programme" name="programme" placeholder="Programme" required>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<!----------------------------- // Main Site Section ------------------------------>
+{% endblock content %}

@@ -20,11 +20,13 @@ login_manager.login_message_category = 'info'
 
 
 from projectlibrary import routes
+from projectlibrary.admin.routes import admin
 from projectlibrary.main.routes import main
 from projectlibrary.students.routes import students
 #from projectlibrary.lecturers.routes import lecturers
 
 
 app.register_blueprint(main)
+app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(students, url_prefix='/student')
 #app.register_blueprint(lecturers)

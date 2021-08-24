@@ -1,0 +1,36 @@
+{% extends "admin-layout.html" %}
+{% block content %}
+<!----------------------------- Main Site Section ------------------------------>
+
+<button>Add New Category</button>
+
+<div class="customers-container">
+    <table id="customers">
+        <thead>
+            <th>ID</th>
+            <th>Category Name</th>
+            <!--
+                <th>Name</th>
+                <th>Username</th>
+                <th>College</th>
+                <th>Email</th>
+-->
+            <th colspan="2">Action</th>
+        </thead>
+        <tr>
+            <td>1</td>
+            <td>9339217</td>
+            <!--
+                <td>Kwaku Manu</td>
+                <td>KManu</td>
+                <td>College of Engineering</td>
+                <td>kmanu@gmail.com</td>
+-->
+            <td><a href="" class="edit">Edit</a></td>
+            <td><a href="" class="delete">Delete</a></td>
+        </tr>
+
+    </table>
+</div>
+
+{% endblock content %}
