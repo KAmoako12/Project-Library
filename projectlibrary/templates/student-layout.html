@@ -27,8 +27,12 @@
 
     <!-- Custom Style   --> 
     <link rel="stylesheet" href="{{url_for('static', filename='css/Style.css')}}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <link rel="stylesheet" href="{{url_for('static', filename='css/lecturerdashboard.css')}}">
     <link rel="shortcut icon" type="image/jpg" href="https://apps.knust.edu.gh/img/logo.png">
+    {% block custom_styles %}
+    {% endblock custom_styles %}
 </head>
 
 <body>
@@ -57,7 +61,7 @@
                     </li>
                     {% if current_user.group_leader %}
                     <li class="nav-link">
-                        <a href="#">Upload</a>
+                        <a href="{{url_for('students.upload_report')}}">Upload</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -81,7 +85,41 @@
 
     <!---------------x------------- Main Site Section ---------------x-------------->
 
-
+<div class="w3-container">
+        <div id="flashModal" class="w3-modal">
+            <div class="w3-modal-content w3-animate-top w3-card-4">
+                <header class="w3-container w3-teal">
+                    <span onclick="document.getElementById('flashModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Message</h2>
+                </header>
+                <div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <ul class=flashes>
+                        {% for category, message in messages %}
+                        <li class="{{ category }}">
+                            <center>
+                                <p class="m-auto p-auto">{{ message }}</p>
+                            </center>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+       {% with messages = get_flashed_messages(with_categories=true) %}
+       {% if messages %}
+            $(window).on('load', function(){
+                $('#flashModal').css('display', 'block');
+            });
+       {% endif %}
+       {% endwith %}
+    </script>
 
 </body>
 

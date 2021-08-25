@@ -1,0 +1,80 @@
+{% extends "student-layout.html" %}
+
+{% block css_files1 %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+
+<style>
+    .chapters {
+        overflow: scroll;
+    }
+
+    .btn {
+        margin-top: 0;
+        width: auto;
+        display: flex;
+    }
+</style>
+{% endblock css_files1 %}
+
+{% block content %}
+<!----------------------------- Main Site Section ------------------------------>
+
+<main>
+    <div class="chapters">
+        <ul>
+            <button class="btn">
+                <li><a href="#">ABSTRACT</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="#">LITERATURE REVIEW</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="#">METHODOLOGY</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="#">TESTING AND EVALUATION</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="#">CONCLUSION AND RECOMMENDATIONS</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="#">FULL REPORT</a></li>
+            </button>
+        </ul>
+    </div>
+    <div class="pdf-container">
+<!--
+        <iframe src="{{intro}}" width="100%" height="100%">
+        </iframe>
+-->
+        <object data="{{intro}}" type="application/pdf">
+            <iframe src="https://docs.google.com/viewer?url={{intro}}&embedded=true"></iframe>
+        </object>
+    </div>
+    <div class="comment">
+        <ul class="comment-list">
+            <li id="comment-62201" class="comment even thread-even depth-1">
+                <article id="div-comment-62201" class="comment-body">
+                    <footer class="comment-meta">
+                        <div class="comment-author vcard">
+                            <b class="fn">Dr Keelson</b> <span class="says">says:</span>
+                        </div>
+                        <div class="comment-metadata">
+                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">April 15, 2021</time></a>
+                        </div>
+                    </footer>
+                    <div class="comment-content">
+                        <p>For getting customers to the feedback contact form is very important for us you explain in detail thankyou very much for sharing such a useful piece of information keep sharing and update us.</p>
+                    </div>
+                </article>
+            </li>
+        </ul>
+
+    </div>
+</main>
+
+<!---------------x------------- Main Site Section ---------------x-------------->
+{% endblock content %}

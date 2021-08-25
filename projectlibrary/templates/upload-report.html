@@ -1,0 +1,61 @@
+{% extends "student-layout.html" %}
+{% block custom_styles %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/Style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
+{% endblock custom_styles %}
+
+{% block content %}
+<!----------------------------- Main Site Section ------------------------------>
+
+<div class="form">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <label for="fname">Report Title</label>
+        {% if report %}
+            <input type="text" id="title" name="title" value="{{report.title}}" readonly>
+        {% else %}
+            <input type="text" id="title" name="title" placeholder="Report Title">
+        {% endif %}
+
+        <label for="lname">Group Id</label>
+        <input type="text" id="groupid" name="groupid" value="{{student.group_id}}" readonly>
+
+        <label for="lname">Report</label><br>
+        <input type="file" id="file" name="file" placeholder="Upload Report"><br>
+
+        <label>Image</label><br>
+        <input type="file" name="image" placeholder="Image"><br>
+
+        <label for="college">College </label>
+        <input type="text" id="college" name="college" value={{student.college}} readonly>
+        
+        <label for="chapter">Chapter </label>
+        <select id="chapter" name="chapter">
+            <option value=""></option>
+            <option value="introduction">Introduction</option>
+            <option value="literature">Literature Review</option>
+            <option value="methodology">Methodology</option>
+            <option value="testing">Testing and Evaluation</option>
+            <option value="conclusion">Conclusion and Recommendations</option>
+            <option value="fullreport">Full Report</option>
+        </select>
+
+        <label for="topic">Topics </label>
+        {% if report %}
+            <input type="text" id="topic" name="topic" value="{{report.topic}}" readonly>
+        {% else %}
+        <select id="topic" name="topic">
+            <option value=""></option>
+            <option value="Software">Software</option>
+            <option value="Health">Health</option>
+            <option value="Science">Science</option>
+            <option value="Database">Database</option>
+            <option value="Music">Music</option>
+            <option value="Mathematics">Mathematics</option>
+        </select>
+        {% endif %}
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<!----------------------------- // Main Site Section ------------------------------>
+{% endblock content %}
