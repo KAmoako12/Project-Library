@@ -50,12 +50,20 @@ def create_student():
             email = request.form['email']
             index_number = request.form['indexnumber']
             group_id = request.form['groupid']
-            password = request.form['password']
+            raw_password = request.form['password']
             college = request.form['college']
             program = request.form['programme']
+            group_leader = request.form['groupleader']
             
-            new_student = Students(username=username, name=name, email=email, password=password, index_number=index_number,
-                                  program=program, group_id=group_id)
+            #hash the password
+            password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
+            
+            if group_leader == "1":
+                new_student = Students(username=username, name=name, email=email, password=password, index_number=index_number,
+                                  program=program, group_id=group_id, college=college, group_leader=True)
+            else:
+                new_student = Students(username=username, name=name, email=email, password=password, index_number=index_number,
+                                  program=program, group_id=group_id, college=college)
             
             db.session.add(new_student)
             
@@ -85,11 +93,14 @@ def edit_student(student_id):
             email = request.form['email']
             index_number = request.form['indexnumber']
             group_id = request.form['groupid']
-            password = request.form['password']
+            raw_password = request.form['password']
             college = request.form['college']
             program = request.form['programme']
+            group_leader = request.form['group_leader']
             
             
+            #hash the password
+            password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             student.name = name
             student.username = username
@@ -98,6 +109,12 @@ def edit_student(student_id):
             student.group_id = group_id
             student.password = password
             student.program = program
+            student.college = college
+            
+            if group_leader == "1":
+                student.group_leader = True
+            else:
+                student.group_leader = False
             
             try:
                 db.session.commit()
@@ -123,17 +140,19 @@ def create_lecturer():
             username = request.form['username']
             email = request.form['email']
             staff_id = request.form['staffid']
-            password = request.form['password']
+            raw_password = request.form['password']
             college = request.form['college']
             hod = request.form['hod']
             department = request.form['department']
             
+            password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
+            
             if hod == "1":
                 new_lecturer = Lecturers(username=username, name=name, email=email, password=password, staff_id=staff_id,
-                                  department=department, hod=True)
+                                  department=department,college=college, hod=True)
             else:
                 new_lecturer = Lecturers(username=username, name=name, email=email, password=password, staff_id=staff_id,
-                                  department=department)
+                                  department=department, college=college)
             
             db.session.add(new_lecturer)
             
@@ -161,17 +180,20 @@ def edit_lecturer(lecturer_id):
             username = request.form['username']
             email = request.form['email']
             staff_id = request.form['staffid']
-            password = request.form['password']
+            raw_password = request.form['password']
             college = request.form['college']
             hod = request.form['hod']
             department = request.form['department']
             
+            #hash the password
+            password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             lecturer.name = name
             lecturer.username = username
             lecturer.email = email
             lecturer.staff_id = staff_id
             lecturer.password = password
+            lecturer.college = college
             if hod == '1':
                 lecturer.hod = True
             else:

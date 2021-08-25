@@ -18,13 +18,13 @@ def home():
         lecturer = Lecturers.query.filter_by(username=username).first()
         #update to hashpassword and lecturer login
         if student:
-            if student.password == password:
+            if bcrypt.check_password_hash(student.password, password):
                 login_user(student)
                 return redirect(url_for('students.dashboard'))
             else:
                 flash('Wrong username/password combination', 'warning')
         elif lecturer:
-            if lecturer.password == password:
+            if bcrypt.check_password_hash(lecturer.password, password):
                 login_user(lecturer)
                 return lecturer.username
             else:
@@ -34,6 +34,11 @@ def home():
             flash('Wrong username/password combination', 'warning')
     return render_template("Index.html")
 
+
+
+@main.route("/colleges", methods=['POST', 'GET'])
+def colleges():
+    return render_template('colleges.html', title='Colleges')
 
 
 @main.route("/logout")

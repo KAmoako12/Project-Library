@@ -50,14 +50,16 @@
                         <a href="{{url_for('main.home')}}">Home</a>
                     </li>
                     <li class="nav-link">
-                        <a href="#">Colleges</a>
+                        <a href="{{url_for('main.colleges')}}">Colleges</a>
                     </li>
                     <li class="nav-link">
                         <a href="{{url_for('students.dashboard')}}">Project-Group</a>
                     </li>
+                    {% if current_user.group_leader %}
                     <li class="nav-link">
                         <a href="#">Upload</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="social text-gray">

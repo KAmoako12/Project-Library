@@ -18,14 +18,19 @@
         
         <label for="groupid">Group ID</label>
         <input type="text" id="groupid" name="groupid" value="{{student.group_id}}" required>
+        
+        <label for="groupleader">Group Leader: </label>
+        <select id="groupleader" name="groupleader">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
 
         <label>Password</label>
-        {# add the unhashed password here #}
         <input type="password" id="password" name="password" placeholder="Password" required>
 
         <label for="college">College </label>
-        <select id="college" name="college">
-            <option value="">Select One</option>
+        <select id="college" name="college" disabled>
+            <option value="" disabled>Select One</option>
             <option value="Engineering">College of Engineering</option>
             <option value="Sciences">College of Science</option>
             <option value="Health Sciences">College of Health Sciences</option>

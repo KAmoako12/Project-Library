@@ -1,7 +1,19 @@
 {% extends "student-layout.html" %}
 
 {% block css_files1 %}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+
+<style>
+    .chapters {
+        overflow: scroll;
+    }
+
+    .btn {
+        margin-top: 0;
+        width: auto;
+        display: flex;
+    }
+</style>
 {% endblock css_files1 %}
 
 {% block content %}
@@ -10,25 +22,31 @@
 <main>
     <div class="chapters">
         <ul>
-            <button>
-                <li><a href="">Chapter 1</a></li>
+            <button class="btn">
+                <li><a href="#">ABSTRACT</a></li>
             </button>
-            <button>
-                <li><a href="">Chapter 2</a></li>
+            <button class="btn">
+                <li><a href="#">INTRODUCTION</a></li>
             </button>
-            <button>
-                <li><a href="">Chapter 3</a></li>
+            <button class="btn">
+                <li><a href="#">LITERATURE REVIEW</a></li>
             </button>
-            <button>
-                <li><a href="">Chapter 4</a></li>
+            <button class="btn">
+                <li><a href="#">METHODOLOGY</a></li>
             </button>
-            <button>
-                <li><a href="">Chapter 5</a></li>
+            <button class="btn">
+                <li><a href="#">TESTING AND EVALUATION</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="#">CONCLUSION AND RECOMMENDATIONS</a></li>
+            </button>
+            <button class="btn">
+                <li><a href="#">FULL REPORT</a></li>
             </button>
         </ul>
     </div>
     <div class="pdf-container">
-        <iframe src="http://alan.ece.gatech.edu/ECE3040/Lectures/Lecture24-MOS%20Transistors.pdf" width="100%" height="100%">
+        <iframe src="abstract.html" width="100%" height="100%">
         </iframe>
     </div>
     <div class="comment">
@@ -37,10 +55,10 @@
                 <article id="div-comment-62201" class="comment-body">
                     <footer class="comment-meta">
                         <div class="comment-author vcard">
-                            <img alt="" src="https://secure.gravatar.com/avatar/c549c2ffb2b22a88245106e5699a9401?s=32&amp;r=g" srcset="https://secure.gravatar.com/avatar/c549c2ffb2b22a88245106e5699a9401?s=64&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32" loading="lazy"> <b class="fn">Rama Bariya</b> <span class="says">says:</span>
+                            <b class="fn">Dr Keelson</b> <span class="says">says:</span>
                         </div>
                         <div class="comment-metadata">
-                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">April 15, 2021 at 6:01 am</time></a>
+                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">April 15, 2021</time></a>
                         </div>
                     </footer>
                     <div class="comment-content">

@@ -1,0 +1,32 @@
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+    .button {
+        border: none;
+        padding: 15px 32px;
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+        text-align: center;
+        margin: 4px 2px;
+    }
+</style>
+
+    <body>
+        <div class="w3-container">
+            <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Delete</button>
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-animate-top w3-card-4">
+                    <header class="w3-container w3-teal">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Confirm Delete</h2>
+                    </header>
+                    <div>
+                        <button class="button" style="background-color: #f44336;">Yes</button>
+                        <button class="button" style="background-color: #4CAF50;">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+

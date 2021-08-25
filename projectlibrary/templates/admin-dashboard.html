@@ -1,4 +1,17 @@
 {% extends "admin-layout.html" %}
+{% block custom_styles %}
+<style>
+    .button {
+        border: none;
+        padding: 15px 32px;
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+        text-align: center;
+        margin: 4px 2px;
+    }
+</style>
+{% endblock custom_styles %}
 {% block content %}
 
 <!----------------------------- Main Site Section ------------------------------>
@@ -7,7 +20,6 @@
 <button id="showStudents">Show Students</button>
 <button id="showLecturers">Show Lecturers</button>
 
-{# ask Amoako that they should add modal for the deletion confirmation #}
 
 <div id="studentsTable" class="customers-container">
     {% if students %}
@@ -30,8 +42,21 @@
             <td>{{student.program}}</td>
             <td>{{student.email}}</td>
             <td><a href="{{url_for('admin.edit_student', student_id=student.id)}}" class="edit">Edit</a></td>
-            <td><a href="{{url_for('admin.delete_user', user_id=student.id)}}" class="delete">Delete</a></td>
+            <td><button onclick="document.getElementById('delete-{{student.id}}').style.display='block'" class="w3-button w3-black">Delete</button></td>
         </tr>
+        
+        <div id="delete-{{student.id}}" class="w3-modal" style="display: none;">
+            <div class="w3-modal-content w3-animate-top w3-card-4">
+                <header class="w3-container w3-teal">
+                    <span onclick="document.getElementById('delete-{{student.id}}').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Confirm Delete</h2>
+                </header>
+                <div>
+                    <a class="button" href="{{url_for('admin.delete_user', user_id=student.id)}}" style="background-color: #f44336;">Yes</a>
+                    <button onclick="document.getElementById('delete-{{student.id}}').style.display='none'" class="button" style="background-color: #4CAF50;">No</button>
+                </div>
+            </div>
+        </div>
         {% endfor %}
     </table>
     {% else %}
@@ -68,8 +93,6 @@
     <p>No Lecturer Database</p>
     {% endif %}
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 
 <script>
 $("#showStudents").on('click', function(){

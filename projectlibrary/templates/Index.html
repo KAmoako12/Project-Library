@@ -46,7 +46,7 @@
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-link">
-                        <a href="#">Colleges</a>
+                        <a href="{{url_for('main.colleges')}}">Colleges</a>
                     </li>
                     <li class="nav-link">
                         <a href="{{url_for('students.dashboard')}}">Project-Group</a>
