@@ -13,6 +13,7 @@
         width: auto;
         display: flex;
     }
+
 </style>
 {% endblock css_files1 %}
 
@@ -30,31 +31,31 @@
                 <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
-            
+
             {% if report.literature_review != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_literature')}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
-            
+
             {% if report.methodology != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_methodology')}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
-            
+
             {% if report.testing_and_evaluation != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_testing')}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
-            
+
             {% if report.conclusion != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_conclusion')}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
             {% endif %}
-            
+
             {% if report.full_report != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_full')}}">FULL REPORT</a></li>
@@ -63,13 +64,18 @@
         </ul>
     </div>
     <div class="pdf-container">
-<!--
+        <!--
         <iframe src="{{intro}}" width="100%" height="100%">
         </iframe>
--->
-        <object data="{{intro}}" type="application/pdf">
-            <embed src="{{intro}}" type="application/pdf" />
+        -->
+        <object type="application/pdf" data="{{intro}}" width="800" height="800">
         </object>
+
+        <!--
+        <object data="https://docs.google.com/viewer?url={{intro}}&embedded=true" type="application/pdf">
+            <embed src="https://docs.google.com/viewer?url={{intro}}&embedded=true" type="application/pdf" />
+        </object>
+        -->
     </div>
     <div class="comment">
         <ul class="comment-list">
