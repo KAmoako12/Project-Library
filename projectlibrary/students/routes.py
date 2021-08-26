@@ -13,7 +13,11 @@ students = Blueprint('students', __name__)
 def dashboard():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
-    return render_template('dashboard.html', title='Student Dashboard', student=student, report=report)
+    
+    abstract_text = report.abstract
+    print(abstract_text)
+    
+    return render_template('dashboard.html', student=student, report=report, abstract_text=abstract_text)
 
 
 @students.route('/introduction', methods=['GET', 'POST'])
@@ -23,6 +27,61 @@ def report_intro():
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
     intro_url = url_for('static', filename='pdfs/' + report.introduction)
+    
+    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+
+
+@students.route('/literature-review', methods=['GET', 'POST'])
+@login_required
+def report_literature():
+    student = current_user
+    report = Reports.query.filter_by(group_id=student.group_id).first()
+    
+    intro_url = url_for('static', filename='pdfs/' + report.literature_review)
+    
+    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+
+
+@students.route('/methodology', methods=['GET', 'POST'])
+@login_required
+def report_methodology():
+    student = current_user
+    report = Reports.query.filter_by(group_id=student.group_id).first()
+    
+    intro_url = url_for('static', filename='pdfs/' + report.methodology)
+    
+    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+
+
+@students.route('/testing-and-evaluation', methods=['GET', 'POST'])
+@login_required
+def report_testing():
+    student = current_user
+    report = Reports.query.filter_by(group_id=student.group_id).first()
+    
+    intro_url = url_for('static', filename='pdfs/' + report.testing_and_evaluation)
+    
+    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+
+
+@students.route('/conclusion', methods=['GET', 'POST'])
+@login_required
+def report_conclusion():
+    student = current_user
+    report = Reports.query.filter_by(group_id=student.group_id).first()
+    
+    intro_url = url_for('static', filename='pdfs/' + report.conclusion)
+    
+    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+
+
+@students.route('/full-report', methods=['GET', 'POST'])
+@login_required
+def report_full():
+    student = current_user
+    report = Reports.query.filter_by(group_id=student.group_id).first()
+    
+    intro_url = url_for('static', filename='pdfs/' + report.full_report)
     
     return render_template('introduction.html', student=student, report=report, intro=intro_url)
 

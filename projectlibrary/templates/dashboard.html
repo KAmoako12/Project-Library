@@ -23,31 +23,54 @@
     <div class="chapters">
         <ul>
             <button class="btn">
-                <li><a href="#">ABSTRACT</a></li>
+                <li><a href="{{url_for('students.dashboard')}}">ABSTRACT</a></li>
             </button>
+            {% if report.introduction != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
             </button>
+            {% endif %}
+            
+            {% if report.literature_review != None %}
             <button class="btn">
-                <li><a href="#">LITERATURE REVIEW</a></li>
+                <li><a href="{{url_for('students.report_literature')}}">LITERATURE REVIEW</a></li>
             </button>
+            {% endif %}
+            
+            {% if report.methodology != None %}
             <button class="btn">
-                <li><a href="#">METHODOLOGY</a></li>
+                <li><a href="{{url_for('students.report_methodology')}}">METHODOLOGY</a></li>
             </button>
+            {% endif %}
+            
+            {% if report.testing_and_evaluation != None %}
             <button class="btn">
-                <li><a href="#">TESTING AND EVALUATION</a></li>
+                <li><a href="{{url_for('students.report_testing')}}">TESTING AND EVALUATION</a></li>
             </button>
+            {% endif %}
+            
+            {% if report.conclusion != None %}
             <button class="btn">
-                <li><a href="#">CONCLUSION AND RECOMMENDATIONS</a></li>
+                <li><a href="{{url_for('students.report_conclusion')}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
+            {% endif %}
+            
+            {% if report.full_report != None %}
             <button class="btn">
-                <li><a href="#">FULL REPORT</a></li>
+                <li><a href="{{url_for('students.report_full')}}">FULL REPORT</a></li>
             </button>
+            {% endif %}
         </ul>
     </div>
     <div class="pdf-container">
-        <iframe src="" width="100%" height="100%">
-        </iframe>
+        <div class="pdf-container">
+        {% if abstract_text == None %}
+            <textarea rows="4" cols="80" placeholder="Insert Abstract Here..."></textarea>
+        {% else %}
+            <textarea rows='10' cols='10'>Hey Soul Sister</textarea>
+        {% endif %}
+        
+    </div>
     </div>
     <div class="comment">
         <ul class="comment-list">
