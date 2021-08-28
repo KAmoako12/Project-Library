@@ -16,7 +16,7 @@ def dashboard():
     
     abstract_text = None
     
-    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     if report:
@@ -45,7 +45,7 @@ def report_intro():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
-    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     intro_url = url_for('static', filename='pdfs/' + report.introduction)
@@ -58,7 +58,7 @@ def report_intro():
 def report_literature():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
-    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     intro_url = url_for('static', filename='pdfs/' + report.literature_review)
@@ -71,7 +71,7 @@ def report_literature():
 def report_methodology():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
-    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     
@@ -86,7 +86,7 @@ def report_testing():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
-    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     intro_url = url_for('static', filename='pdfs/' + report.testing_and_evaluation)
@@ -100,7 +100,7 @@ def report_conclusion():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
-    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     intro_url = url_for('static', filename='pdfs/' + report.conclusion)
@@ -114,7 +114,7 @@ def report_full():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
-    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     intro_url = url_for('static', filename='pdfs/' + report.full_report)

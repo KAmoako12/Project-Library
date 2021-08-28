@@ -29,7 +29,7 @@ def abstract(group_id):
     
     students = Students.query.filter_by(group_id=group_id).all()
     
-    comments = Comments.query.filter_by(sender=lecturer.id).all()
+    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -55,7 +55,21 @@ def report_intro(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.introduction)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students)
+    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    
+    if request.method == 'POST':
+        new_entry = request.form['comment']
+        
+        if new_entry.isspace() or new_entry == '':
+            flash('Please enter a comment!', 'warning')
+        else:
+            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+            flash('New Comment Added!', 'success')
+            db.session.add(new_comment)
+            db.session.commit()
+            
+        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
 
 
 @lecturers.route('/literature-review/<group_id>', methods=['GET', 'POST'])
@@ -67,7 +81,22 @@ def report_literature(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.literature_review)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students)
+    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    
+    if request.method == 'POST':
+        new_entry = request.form['comment']
+        
+        if new_entry.isspace() or new_entry == '':
+            flash('Please enter a comment!', 'warning')
+        else:
+            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+            flash('New Comment Added!', 'success')
+            db.session.add(new_comment)
+            db.session.commit()
+            
+        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
+
 
 
 @lecturers.route('/methodology/<group_id>', methods=['GET', 'POST'])
@@ -79,7 +108,22 @@ def report_methodology(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.methodology)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students)
+    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    
+    if request.method == 'POST':
+        new_entry = request.form['comment']
+        
+        if new_entry.isspace() or new_entry == '':
+            flash('Please enter a comment!', 'warning')
+        else:
+            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+            flash('New Comment Added!', 'success')
+            db.session.add(new_comment)
+            db.session.commit()
+            
+        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
+
 
 
 @lecturers.route('/testing-and-evaluation/<group_id>', methods=['GET', 'POST'])
@@ -91,7 +135,22 @@ def report_testing(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.testing_and_evaluation)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students)
+    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    
+    if request.method == 'POST':
+        new_entry = request.form['comment']
+        
+        if new_entry.isspace() or new_entry == '':
+            flash('Please enter a comment!', 'warning')
+        else:
+            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+            flash('New Comment Added!', 'success')
+            db.session.add(new_comment)
+            db.session.commit()
+            
+        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
+
 
 
 @lecturers.route('/conclusion/<group_id>', methods=['GET', 'POST'])
@@ -103,7 +162,22 @@ def report_conclusion(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.conclusion)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students)
+    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    
+    if request.method == 'POST':
+        new_entry = request.form['comment']
+        
+        if new_entry.isspace() or new_entry == '':
+            flash('Please enter a comment!', 'warning')
+        else:
+            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+            flash('New Comment Added!', 'success')
+            db.session.add(new_comment)
+            db.session.commit()
+            
+        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
+
 
 
 @lecturers.route('/full-report/<group_id>', methods=['GET', 'POST'])
@@ -115,4 +189,18 @@ def report_full(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.full_report)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url,students=students)
+    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    
+    if request.method == 'POST':
+        new_entry = request.form['comment']
+        
+        if new_entry.isspace() or new_entry == '':
+            flash('Please enter a comment!', 'warning')
+        else:
+            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+            flash('New Comment Added!', 'success')
+            db.session.add(new_comment)
+            db.session.commit()
+            
+        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+    return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)

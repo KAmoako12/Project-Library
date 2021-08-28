@@ -63,7 +63,7 @@ class Reports(db.Model):
     
 class Comments(db.Model):
     id = db.Column(db.Integer,  primary_key=True)
-    group_id = db.Column(db.String(255), nullable=False, unique=True)
+    group_id = db.Column(db.String(255), nullable=False)
     report_id = db.Column(db.Integer, db.ForeignKey('reports.id'), nullable=False)
     comment = db.Column(db.Text, nullable=False)
     sender = db.Column(db.String(20), db.ForeignKey('lecturers.id'), nullable=False)
