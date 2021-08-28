@@ -29,7 +29,7 @@ def abstract(group_id):
     
     students = Students.query.filter_by(group_id=group_id).all()
     
-    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    comments = Comments.query.filter_by(sender=lecturer.id, group_id=group_id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -37,10 +37,13 @@ def abstract(group_id):
         if new_entry.isspace() or new_entry == '':
             flash('Please enter a comment!', 'warning')
         else:
-            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
-            flash('New Comment Added!', 'success')
-            db.session.add(new_comment)
-            db.session.commit()
+            if report:
+                new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+                flash('New Comment Added!', 'success')
+                db.session.add(new_comment)
+                db.session.commit()
+            else:
+                flash('No Reports Uploaded yet!', 'warning')
             
         return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-abstract.html', lecturer=lecturer, report=report, students=students, comments=comments)
@@ -55,7 +58,7 @@ def report_intro(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.introduction)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    comments = Comments.query.filter_by(sender=lecturer.id, group_id=group_id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -63,12 +66,15 @@ def report_intro(group_id):
         if new_entry.isspace() or new_entry == '':
             flash('Please enter a comment!', 'warning')
         else:
-            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
-            flash('New Comment Added!', 'success')
-            db.session.add(new_comment)
-            db.session.commit()
+            if report:
+                new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+                flash('New Comment Added!', 'success')
+                db.session.add(new_comment)
+                db.session.commit()
+            else:
+                flash('No Reports Uploaded yet!', 'warning')
             
-        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+        return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
 
 
@@ -81,7 +87,7 @@ def report_literature(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.literature_review)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    comments = Comments.query.filter_by(sender=lecturer.id, group_id=group_id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -89,12 +95,15 @@ def report_literature(group_id):
         if new_entry.isspace() or new_entry == '':
             flash('Please enter a comment!', 'warning')
         else:
-            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
-            flash('New Comment Added!', 'success')
-            db.session.add(new_comment)
-            db.session.commit()
+            if report:
+                new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+                flash('New Comment Added!', 'success')
+                db.session.add(new_comment)
+                db.session.commit()
+            else:
+                flash('No Reports Uploaded yet!', 'warning')
             
-        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+        return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
 
 
@@ -108,7 +117,7 @@ def report_methodology(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.methodology)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    comments = Comments.query.filter_by(sender=lecturer.id, group_id=group_id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -116,12 +125,15 @@ def report_methodology(group_id):
         if new_entry.isspace() or new_entry == '':
             flash('Please enter a comment!', 'warning')
         else:
-            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
-            flash('New Comment Added!', 'success')
-            db.session.add(new_comment)
-            db.session.commit()
+            if report:
+                new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+                flash('New Comment Added!', 'success')
+                db.session.add(new_comment)
+                db.session.commit()
+            else:
+                flash('No Reports Uploaded yet!', 'warning')
             
-        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+        return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
 
 
@@ -135,7 +147,7 @@ def report_testing(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.testing_and_evaluation)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    comments = Comments.query.filter_by(sender=lecturer.id, group_id=group_id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -143,12 +155,15 @@ def report_testing(group_id):
         if new_entry.isspace() or new_entry == '':
             flash('Please enter a comment!', 'warning')
         else:
-            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
-            flash('New Comment Added!', 'success')
-            db.session.add(new_comment)
-            db.session.commit()
+            if report:
+                new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+                flash('New Comment Added!', 'success')
+                db.session.add(new_comment)
+                db.session.commit()
+            else:
+                flash('No Reports Uploaded yet!', 'warning')
             
-        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+        return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
 
 
@@ -162,7 +177,7 @@ def report_conclusion(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.conclusion)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    comments = Comments.query.filter_by(sender=lecturer.id, group_id=group_id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -170,12 +185,15 @@ def report_conclusion(group_id):
         if new_entry.isspace() or new_entry == '':
             flash('Please enter a comment!', 'warning')
         else:
-            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
-            flash('New Comment Added!', 'success')
-            db.session.add(new_comment)
-            db.session.commit()
+            if report:
+                new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+                flash('New Comment Added!', 'success')
+                db.session.add(new_comment)
+                db.session.commit()
+            else:
+                flash('No Reports Uploaded yet!', 'warning')
             
-        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+        return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
 
 
@@ -189,7 +207,7 @@ def report_full(group_id):
     intro_url = url_for('static', filename='pdfs/' + report.full_report)
     
     students = Students.query.filter_by(group_id=group_id).all()
-    comments = Comments.query.filter_by(sender=lecturer.id).order_by(Comments.created_at.desc()).all()
+    comments = Comments.query.filter_by(sender=lecturer.id, group_id=group_id).order_by(Comments.created_at.desc()).all()
     
     if request.method == 'POST':
         new_entry = request.form['comment']
@@ -197,10 +215,13 @@ def report_full(group_id):
         if new_entry.isspace() or new_entry == '':
             flash('Please enter a comment!', 'warning')
         else:
-            new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
-            flash('New Comment Added!', 'success')
-            db.session.add(new_comment)
-            db.session.commit()
+            if report:
+                new_comment = Comments(group_id=group_id, report_id=report.id, comment=new_entry, sender=lecturer.id)
+                flash('New Comment Added!', 'success')
+                db.session.add(new_comment)
+                db.session.commit()
+            else:
+                flash('No Reports Uploaded yet!', 'warning')
             
-        return redirect(url_for('lecturers.report_intro', group_id=group_id))
+        return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
