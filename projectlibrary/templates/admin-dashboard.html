@@ -30,6 +30,7 @@
             <th>Name</th>
             <th>Username</th>
             <th>Programme</th>
+            <th>Group</th>
             <th>Email</th>
             <th colspan="2">Action</th>
         </thead>
@@ -40,6 +41,7 @@
             <td>{{student.name}}</td>
             <td>{{student.username}}</td>
             <td>{{student.program}}</td>
+            <td>{{student.group_id}}</td>
             <td>{{student.email}}</td>
             <td><a href="{{url_for('admin.edit_student', student_id=student.id)}}" class="edit">Edit</a></td>
             <td><button onclick="document.getElementById('delete-{{student.id}}').style.display='block'" class="w3-button w3-black">Delete</button></td>
