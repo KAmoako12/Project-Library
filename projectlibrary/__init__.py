@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'testing-secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 #app.config['SERVER_NAME'] = 'localhost:9000'
-app.config['SECURITY_PASSWORD_SALT'] = os.environ['SECURITY_PASSWORD_SALT']
+app.config['SECURITY_PASSWORD_SALT'] = 'lalala'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app) 
 login_manager = LoginManager(app)
