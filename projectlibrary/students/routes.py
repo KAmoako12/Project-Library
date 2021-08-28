@@ -45,9 +45,12 @@ def report_intro():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
+    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
+    
     intro_url = url_for('static', filename='pdfs/' + report.introduction)
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
 
 
 @students.route('/literature-review', methods=['GET', 'POST'])
@@ -55,10 +58,12 @@ def report_intro():
 def report_literature():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     intro_url = url_for('static', filename='pdfs/' + report.literature_review)
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
 
 
 @students.route('/methodology', methods=['GET', 'POST'])
@@ -66,10 +71,13 @@ def report_literature():
 def report_methodology():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
+    
     
     intro_url = url_for('static', filename='pdfs/' + report.methodology)
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
 
 
 @students.route('/testing-and-evaluation', methods=['GET', 'POST'])
@@ -78,9 +86,12 @@ def report_testing():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
+    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
+    
     intro_url = url_for('static', filename='pdfs/' + report.testing_and_evaluation)
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
 
 
 @students.route('/conclusion', methods=['GET', 'POST'])
@@ -89,9 +100,12 @@ def report_conclusion():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
+    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
+    
     intro_url = url_for('static', filename='pdfs/' + report.conclusion)
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+    return render_template('introduction.html', student=student, report=report, intro=intro_url,comments=comments, lecturer=lecturer)
 
 
 @students.route('/full-report', methods=['GET', 'POST'])
@@ -100,9 +114,12 @@ def report_full():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
+    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
+    
     intro_url = url_for('static', filename='pdfs/' + report.full_report)
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url)
+    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
 
 
 @students.route('/upload-report', methods=['GET', 'POST'])
