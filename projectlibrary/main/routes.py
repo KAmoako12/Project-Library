@@ -10,6 +10,15 @@ main = Blueprint('main', __name__)
 @main.route("/home", methods=['POST', 'GET'])
 @main.route("/index", methods=['POST', 'GET'])
 def home():
+    user = current_user
+    student = None
+    lecturer = None
+    if user.is_authenticated:
+        student = Students.query.filter_by(id=user.id).first()
+        lecturer = Lecturers.query.filter_by(id=user.id).first()
+
+            
+        
     if request.method == 'POST':
         username = request.form['uname']
         password = request.form['psw']
@@ -23,16 +32,17 @@ def home():
                 return redirect(url_for('students.dashboard'))
             else:
                 flash('Wrong username/password combination', 'warning')
-        elif lecturer:
+                
+        if lecturer:
             if bcrypt.check_password_hash(lecturer.password, password):
                 login_user(lecturer)
-                return lecturer.username
+                return redirect(url_for('lecturers.dashboard'))
             else:
                 flash('Wrong username/password combination', 'warning')
                 
         else:
             flash('Wrong username/password combination', 'warning')
-    return render_template("Index.html")
+    return render_template("Index.html", student=student, lecturer=lecturer)
 
 
 

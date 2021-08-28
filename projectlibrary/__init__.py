@@ -8,8 +8,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'testing-secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
-app.config['SERVER_NAME'] = '127.0.0.1:9000'
-app.config['SECURITY_PASSWORD_SALT'] = 'lalala'
+#app.config['SERVER_NAME'] = 'localhost:9000'
+app.config['SECURITY_PASSWORD_SALT'] = os.environ['SECURITY_PASSWORD_SALT']
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app) 
 login_manager = LoginManager(app)
@@ -23,10 +23,10 @@ from projectlibrary import routes
 from projectlibrary.admin.routes import admin
 from projectlibrary.main.routes import main
 from projectlibrary.students.routes import students
-#from projectlibrary.lecturers.routes import lecturers
+from projectlibrary.lecturers.routes import lecturers
 
 
 app.register_blueprint(main)
 app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(students, url_prefix='/student')
-#app.register_blueprint(lecturers)
+app.register_blueprint(lecturers)
