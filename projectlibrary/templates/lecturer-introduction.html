@@ -1,8 +1,7 @@
-{% extends "student-layout.html" %}
+{% extends "lecturer-layout.html" %}
 
 {% block css_files1 %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
-
 <style>
     .chapters {
         overflow: scroll;
@@ -13,7 +12,19 @@
         width: auto;
         display: flex;
     }
-
+    
+    .textarea {
+        margin: 0px; 
+        height: 479px; 
+        width: 837px;
+        overflow: scroll;
+    }
+    
+    .commentarea {
+        margin: 2px; 
+        width: 892px; 
+        height: 88px;
+    }
 </style>
 {% endblock css_files1 %}
 
@@ -24,41 +35,41 @@
     <div class="chapters">
         <ul>
             <button class="btn">
-                <li><a href="{{url_for('students.dashboard')}}">ABSTRACT</a></li>
+            <li><a href="{{url_for('lecturers.abstract', group_id=report.group_id)}}">ABSTRACT</a></li>
             </button>
             {% if report and report.introduction != None %}
             <button class="btn">
-                <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
+                <li><a href="{{url_for('lecturers.report_intro', group_id=report.group_id)}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
             
             {% if report and report.literature_review != None %}
             <button class="btn">
-                <li><a href="{{url_for('students.report_literature')}}">LITERATURE REVIEW</a></li>
+                <li><a href="{{url_for('lecturers.report_literature', group_id=report.group_id)}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
             
             {% if report and report.methodology != None %}
             <button class="btn">
-                <li><a href="{{url_for('students.report_methodology')}}">METHODOLOGY</a></li>
+                <li><a href="{{url_for('lecturers.report_methodology', group_id=report.group_id)}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
             
             {% if report and report.testing_and_evaluation != None %}
             <button class="btn">
-                <li><a href="{{url_for('students.report_testing')}}">TESTING AND EVALUATION</a></li>
+                <li><a href="{{url_for('lecturers.report_testing', group_id=report.group_id)}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
             
             {% if report and report.conclusion != None %}
             <button class="btn">
-                <li><a href="{{url_for('students.report_conclusion')}}">CONCLUSION AND RECOMMENDATIONS</a></li>
+                <li><a href="{{url_for('lecturers.report_conclusion', group_id=report.group_id)}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
             {% endif %}
             
             {% if report and report.full_report != None %}
             <button class="btn">
-                <li><a href="{{url_for('students.report_full')}}">FULL REPORT</a></li>
+                <li><a href="{{url_for('lecturers.report_full', group_id=report.group_id)}}">FULL REPORT</a></li>
             </button>
             {% endif %}
         </ul>
@@ -78,12 +89,20 @@
         -->
     </div>
     <div class="comment">
+        {% for student in students %}
+            {% if student.group_leader %}
+                <p>{{student.name}} - {{student.index_number}} [Group Leader]</p>
+            {% else %}
+                <p>{{student.name}} - {{student.index_number}}</p>
+            {% endif %}
+        {% endfor %}
+        <button onclick="document.getElementById('commentModal').style.display='block'">Add Comment</button>
         <ul class="comment-list">
             <li id="comment-62201" class="comment even thread-even depth-1">
                 <article id="div-comment-62201" class="comment-body">
                     <footer class="comment-meta">
                         <div class="comment-author vcard">
-                            <b class="fn">Dr Keelson</b> <span class="says">says:</span>
+                            <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
                         </div>
                         <div class="comment-metadata">
                             <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">April 15, 2021</time></a>
@@ -95,9 +114,25 @@
                 </article>
             </li>
         </ul>
-
     </div>
 </main>
+
+<div class="w3-container">
+    <div id="commentModal" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top w3-card-4">
+            <header class="w3-container w3-teal">
+                <span onclick="document.getElementById('commentModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                <h2>Enter Your Comments Here</h2>
+            </header>
+            <form method="POST" action=''>
+                <div>
+                   <textarea class='commentarea' name="comment" placeholder="Enter Your Comment"></textarea>
+                    <button>Submit Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!---------------x------------- Main Site Section ---------------x-------------->
 {% endblock content %}

@@ -14,10 +14,29 @@ def dashboard():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
-    abstract_text = report.abstract
-    print(abstract_text)
+    abstract_text = None
     
-    return render_template('dashboard.html', student=student, report=report, abstract_text=abstract_text)
+    comments = Comments.query.filter_by(group_id=student.group_id).all()
+    lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
+    
+    if report:
+        abstract_text = report.abstract
+    
+    if request.method == 'POST':
+        abstract = request.form['abstract']
+        if abstract.isspace() or abstract=='':
+            flash('Kindly Enter an abstract', 'warning')
+        else:
+            if report:
+                report.abstract = abstract
+                flash('Abstract Updated', 'success')
+                db.session.commit()
+            else:
+                flash('You need to upload report details first!', 'warning')
+            
+        return redirect(url_for('students.dashboard'))
+    
+    return render_template('dashboard.html', student=student, report=report, abstract_text=abstract_text, comments=comments, lecturer=lecturer)
 
 
 @students.route('/introduction', methods=['GET', 'POST'])
@@ -152,32 +171,32 @@ def upload_report():
             if chapter == 'introduction':
                 pdf_file = save_pdf(file)
                 new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, image=picture_file,
-                                    introduction=pdf_file)
+                                    introduction=pdf_file, supervisor=student.supervisor)
                 
             elif chapter == 'literature':
                 pdf_file = save_pdf(file)
                 new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, image=picture_file,
-                                    literature_review=pdf_file)
+                                    literature_review=pdf_file, supervisor=student.supervisor)
             elif chapter == 'methodology':
                 pdf_file = save_pdf(file)
                 new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, image=picture_file,
-                                    methodology=pdf_file)
+                                    methodology=pdf_file, supervisor=student.supervisor)
                 
             elif chapter == 'testing':
                 pdf_file = save_pdf(file)
                 new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, image=picture_file,
-                                    testing_and_evaluation=pdf_file)
+                                    testing_and_evaluation=pdf_file, supervisor=student.supervisor)
                 
             elif chapter == 'conclusion':
                 pdf_file = save_pdf(file)
                 new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, image=picture_file,
-                                    conclusion=pdf_file)
+                                    conclusion=pdf_file, supervisor=student.supervisor)
                 
             else:
                 if chapter == 'fullreport':
                     pdf_file = save_pdf(file)
                     new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, image=picture_file,
-                                        full_report=pdf_file)
+                                        full_report=pdf_file, supervisor=student.supervisor)
                     
             db.session.add(new_report)
             db.session.commit()

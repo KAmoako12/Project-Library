@@ -13,6 +13,13 @@
         width: auto;
         display: flex;
     }
+    
+    .textarea {
+        margin: 0px; 
+        height: 479px; 
+        width: 837px;
+        overflow: scroll;
+    }
 </style>
 {% endblock css_files1 %}
 
@@ -25,37 +32,37 @@
             <button class="btn">
                 <li><a href="{{url_for('students.dashboard')}}">ABSTRACT</a></li>
             </button>
-            {% if report.introduction != None %}
+            {% if report and report.introduction != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
             
-            {% if report.literature_review != None %}
+            {% if report and report.literature_review != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_literature')}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
             
-            {% if report.methodology != None %}
+            {% if report and report.methodology != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_methodology')}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
             
-            {% if report.testing_and_evaluation != None %}
+            {% if report and report.testing_and_evaluation != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_testing')}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
             
-            {% if report.conclusion != None %}
+            {% if report and report.conclusion != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_conclusion')}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
             {% endif %}
             
-            {% if report.full_report != None %}
+            {% if report and report.full_report != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_full')}}">FULL REPORT</a></li>
             </button>
@@ -64,33 +71,40 @@
     </div>
     <div class="pdf-container">
         <div class="pdf-container">
-        {% if abstract_text == None %}
-            <textarea rows="4" cols="80" placeholder="Insert Abstract Here..."></textarea>
-        {% else %}
-            <textarea rows='10' cols='10'>Hey Soul Sister</textarea>
-        {% endif %}
-        
+        <form action='' method='POST'>
+            {% if abstract_text == None %}
+                <textarea name="abstract" class="textarea" rows="4" cols="80" placeholder="Insert Abstract Here..."></textarea>
+            {% else %}
+                <textarea name="abstract" class="textarea" rows='10' cols='10'>{{abstract_text}}</textarea>
+            {% endif %}
+            <button type="submit" style="background-color: green;">Save</button>
+        </form>
     </div>
     </div>
     <div class="comment">
+        {% if comments %}
+        {% for comment in comments %}
         <ul class="comment-list">
             <li id="comment-62201" class="comment even thread-even depth-1">
                 <article id="div-comment-62201" class="comment-body">
                     <footer class="comment-meta">
                         <div class="comment-author vcard">
-                            <b class="fn">Dr Keelson</b> <span class="says">says:</span>
+                            <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
                         </div>
                         <div class="comment-metadata">
-                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">April 15, 2021</time></a>
+                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
                         </div>
                     </footer>
                     <div class="comment-content">
-                        <p>For getting customers to the feedback contact form is very important for us you explain in detail thankyou very much for sharing such a useful piece of information keep sharing and update us.</p>
+                        <p>{{comment.comment}}</p>
                     </div>
                 </article>
             </li>
         </ul>
-
+        {% endfor %}
+        {% else %}
+        <p>No Comments Yet</p>
+        {% endif %}
     </div>
 </main>
 

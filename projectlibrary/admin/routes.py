@@ -4,6 +4,7 @@ from projectlibrary import app, db, bcrypt
 from projectlibrary.models import *
 import os
 import logging
+import uuid
 
 admin = Blueprint('admin', __name__)
 
@@ -54,15 +55,16 @@ def create_student():
             college = request.form['college']
             program = request.form['programme']
             group_leader = request.form['groupleader']
+            staff_id = request.form['staffid']
             
             #hash the password
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             if group_leader == "1":
-                new_student = Students(username=username, name=name, email=email, password=password, index_number=index_number,
-                                  program=program, group_id=group_id, college=college, group_leader=True)
+                new_student = Students(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password, index_number=index_number,
+                                  program=program, group_id=group_id, college=college,supervisor=staff_id, group_leader=True)
             else:
-                new_student = Students(username=username, name=name, email=email, password=password, index_number=index_number,
+                new_student = Students(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password,supervisor=staff_id, index_number=index_number,
                                   program=program, group_id=group_id, college=college)
             
             db.session.add(new_student)
@@ -97,6 +99,7 @@ def edit_student(student_id):
             college = request.form['college']
             program = request.form['programme']
             group_leader = request.form['group_leader']
+            staff_id = request.form['staffid']
             
             
             #hash the password
@@ -110,6 +113,7 @@ def edit_student(student_id):
             student.password = password
             student.program = program
             student.college = college
+            student.supervisor = staff_id
             
             if group_leader == "1":
                 student.group_leader = True
@@ -148,10 +152,10 @@ def create_lecturer():
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             if hod == "1":
-                new_lecturer = Lecturers(username=username, name=name, email=email, password=password, staff_id=staff_id,
+                new_lecturer = Lecturers(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password, staff_id=staff_id,
                                   department=department,college=college, hod=True)
             else:
-                new_lecturer = Lecturers(username=username, name=name, email=email, password=password, staff_id=staff_id,
+                new_lecturer = Lecturers(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password, staff_id=staff_id,
                                   department=department, college=college)
             
             db.session.add(new_lecturer)
