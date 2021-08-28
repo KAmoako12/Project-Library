@@ -89,6 +89,7 @@
         -->
     </div>
      <div class="comment">
+         {# start div here #}
         {% for student in students %}
             {% if student.group_leader %}
                 <p>{{student.name}} - {{student.index_number}} [Group Leader]</p>
@@ -96,6 +97,7 @@
                 <p>{{student.name}} - {{student.index_number}}</p>
             {% endif %}
         {% endfor %}
+         {# end here #}
         <button onclick="document.getElementById('commentModal').style.display='block'">Add Comment</button>
         
         {% if comments %}
