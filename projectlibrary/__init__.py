@@ -5,7 +5,7 @@ from flask_login import LoginManager
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ['ALPHA_SECRET_KEY'] 
+app.config['SECRET_KEY'] = 'testing-secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 #app.config['SERVER_NAME'] = 'localhost:9000'
