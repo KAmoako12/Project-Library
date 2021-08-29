@@ -107,38 +107,20 @@
             <div class="blog">
                 <div class="container">
                     <div class="owl-carousel owl-theme blog-post">
+                        {% if carousels %}
+                        {% for carousel in carousels %}
                         <div class="blog-content" data-aos="fade-right" data-aos-delay="200">
-                            <img src="{{url_for('static', filename='assets/Blog-post/post-1.jpg')}}" alt="post-1">
+                            <img src="{{url_for('static', filename='project-images/'+ carousel.image)}}" alt="{{carousel.title}}">
                             <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
+                                <h3>{{carousel.title}}</h3>
+                                <button class="btn btn-blog">{{carousel.topic}}</button>
+                                {#<span>2 minutes</span>#}
                             </div>
                         </div>
-                        <div class="blog-content" data-aos="fade-in" data-aos-delay="200">
-                            <img src="{{url_for('static', filename='assets/Blog-post/post-3.jpg')}}" alt="post-1">
-                            <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
-                            </div>
-                        </div>
-                        <div class="blog-content" data-aos="fade-left" data-aos-delay="200">
-                            <img src="{{url_for('static', filename='assets/Blog-post/post-2.jpg')}}" alt="post-1">
-                            <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
-                            </div>
-                        </div>
-                        <div class="blog-content" data-aos="fade-right" data-aos-delay="200">
-                            <img src="{{url_for('static', filename='assets/Blog-post/post-5.png')}}" alt="post-1">
-                            <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
-                            </div>
-                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p>No Reports Available!</p>
+                        {% endif %}
                     </div>
                     <div class="owl-navigation">
                         <span class="owl-nav-prev"><i class="fas fa-long-arrow-alt-left"></i></span>

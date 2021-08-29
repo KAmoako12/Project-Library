@@ -2,6 +2,8 @@ from flask import render_template, url_for, flash, redirect, Blueprint, request
 from flask_login import login_user, logout_user, current_user, login_required
 from projectlibrary import app, db, bcrypt
 from projectlibrary.models import *
+from  sqlalchemy.sql.expression import func
+
 
 
 main = Blueprint('main', __name__)
@@ -27,6 +29,10 @@ def home(page):
     reports = Reports.query.filter_by(published=True).paginate(page=page, per_page=4)
     recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
+    
+    
+    carousels = Reports.query.filter_by(published=True).order_by(func.random()).limit(4).all()
+    
     
     next_url = url_for('main.home', page=reports.next_num) \
         if reports.has_next else None
@@ -58,7 +64,7 @@ def home(page):
                 
         else:
             flash('Wrong username/password combination', 'warning')
-    return render_template("Index.html", reports=reports, next_url=next_url, prev_url=prev_url, report_len=report_len, recents=recents)
+    return render_template("Index.html", reports=reports, next_url=next_url, prev_url=prev_url, report_len=report_len, recents=recents, carousels=carousels)
 
 
 @main.route("/abstract/<report_id>", methods=['GET', 'POST'])
