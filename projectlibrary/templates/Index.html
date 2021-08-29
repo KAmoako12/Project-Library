@@ -212,27 +212,27 @@
                 </div>
                 <aside class="sidebar">
                     <div class="category">
-                        <h2>Category</h2>
+                        <h2>Topics</h2>
                         <ul class="category-list">
                             <li class="list-items" data-aos="fade-left" data-aos-delay="100">
-                                <a href="#">Software</a>
-                                <span>(05)</span>
+                                <a href="{{url_for('main.topic_explore', topic='Software')}}">Software</a>
+                                <span>({{report_len.query.filter_by(topic='Software').all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="200">
-                                <a href="#">Techonlogy</a>
-                                <span>(02)</span>
+                                <a href="{{url_for('main.topic_explore', topic='Technology')}}">Techonlogy</a>
+                                <span>({{report_len.query.filter_by(topic='Technology').all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="300">
-                                <a href="#">Lifestyle</a>
-                                <span>(07)</span>
+                                <a href="{{url_for('main.topic_explore', topic='Lifestyle')}}">Lifestyle</a>
+                                <span>({{report_len.query.filter_by(topic='Lifestyle').all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="400">
-                                <a href="#">Shopping</a>
-                                <span>(01)</span>
+                                <a href="{{url_for('main.topic_explore', topic='Shopping')}}">Shopping</a>
+                                <span>({{report_len.query.filter_by(topic='Shopping').all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="500">
-                                <a href="#">Food</a>
-                                <span>(08)</span>
+                                <a href="{{url_for('main.topic_explore', topic='Food')}}">Food</a>
+                                <span>({{report_len.query.filter_by(topic='Food').all() | length }})</span>
                             </li>
                         </ul>
                     </div>
