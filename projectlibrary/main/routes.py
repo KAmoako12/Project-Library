@@ -25,6 +25,7 @@ def inject_user():
 def home(page):
     #taking care of the reports
     reports = Reports.query.filter_by(published=True).paginate(page=page, per_page=4)
+    recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
     
     next_url = url_for('main.home', page=reports.next_num) \
@@ -57,7 +58,7 @@ def home(page):
                 
         else:
             flash('Wrong username/password combination', 'warning')
-    return render_template("Index.html", reports=reports, next_url=next_url, prev_url=prev_url, report_len=report_len)
+    return render_template("Index.html", reports=reports, next_url=next_url, prev_url=prev_url, report_len=report_len, recents=recents)
 
 
 @main.route("/abstract/<report_id>", methods=['GET', 'POST'])
@@ -83,6 +84,7 @@ def colleges():
 def topic_explore(topic, page):
      #taking care of the reports
     reports = Reports.query.filter_by(published=True, topic=topic).paginate(page=page, per_page=4)
+    recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
     
     next_url = url_for('main.home', page=reports.next_num) \
@@ -91,7 +93,7 @@ def topic_explore(topic, page):
     prev_url = url_for('main.home', page=reports.prev_num) \
         if reports.has_prev else None
         
-    return render_template('topic-explore.html', title=topic, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len)
+    return render_template('topic-explore.html', title=topic, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len, recents=recents)
 
 
 @main.route("/explore/college/<college>", methods=['POST', 'GET'], defaults={'page':1})
@@ -99,6 +101,7 @@ def topic_explore(topic, page):
 def college_explore(college, page):
      #taking care of the reports
     reports = Reports.query.filter_by(published=True, college=college).paginate(page=page, per_page=4)
+    recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
     
     next_url = url_for('main.home', page=reports.next_num) \
@@ -107,7 +110,7 @@ def college_explore(college, page):
     prev_url = url_for('main.home', page=reports.prev_num) \
         if reports.has_prev else None
         
-    return render_template('college-explore.html', title=college, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len)
+    return render_template('college-explore.html', title=college, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len, recents=recents)
 
 
 @main.route("/logout")
