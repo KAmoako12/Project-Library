@@ -74,9 +74,9 @@
                     </div>
                 </div>
             <aside class="sidebar">
-                <form class="search">
-                    <input type="text" class="searchTerm" placeholder="Search" name="location">
-                    <button type="submit" class="searchButton">
+                <form id="search" class="search">
+                    <input type="text" class="searchTerm" placeholder="Search" id="query" name="query">
+                    <button type="button" id="searchBtn" class="searchButton">
                         <i class="fa fa-search"></i>
                     </button>
                 </form>
@@ -152,4 +152,17 @@
 
 <!---------------x------------- Main Site Section ---------------x-------------->
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+<script>
+    $('#searchBtn').on('click', function(){
+        var queryValue = $("#query").val();
+        var url = "/search/"+ queryValue;
+        
+        console.log(url);
+        window.location.replace(url);
+    });
+
+</script>
 {% endblock content %}

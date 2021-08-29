@@ -14,7 +14,7 @@
 <main>
 
     <!-- ---------------------- Site Content -------------------------->
-
+    <center><p>Show Reports Containing: {{query}}</p></center>
     <section class="container">
         <div class="site-content">
             <div class="posts">
@@ -105,7 +105,7 @@
                             </li>
                         </ul>
                     </div>
-                <div class="popular-post">
+                 <div class="popular-post">
                         <h2>Recent Posts</h2>
                         {% if recents %}
                         {% for recent in recents %}
@@ -149,6 +149,7 @@
     <!-- -----------x---------- Site Content -------------x------------>
 
 </main>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 
 <script>

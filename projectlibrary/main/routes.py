@@ -69,7 +69,8 @@ def home(page):
 @main.route("/abstract/<report_id>", methods=['GET', 'POST'])
 def abstract(report_id):   
     report = Reports.query.filter_by(id=report_id).first()
-    return render_template('abstract.html', title='Report Abstract', report=report)
+    recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
+    return render_template('abstract.html', title='Report Abstract', report=report, recents=recents)
 
 
 @main.route("/full-post/<report_id>", methods=['GET', 'POST'])
@@ -92,10 +93,10 @@ def topic_explore(topic, page):
     recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
     
-    next_url = url_for('main.home', page=reports.next_num) \
+    next_url = url_for('main.topic_explore', page=reports.next_num) \
         if reports.has_next else None
         
-    prev_url = url_for('main.home', page=reports.prev_num) \
+    prev_url = url_for('main.topic_explore', page=reports.prev_num) \
         if reports.has_prev else None
         
     return render_template('topic-explore.html', title=topic, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len, recents=recents)
@@ -109,13 +110,32 @@ def college_explore(college, page):
     recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
     
+    next_url = url_for('main.college_explore', page=reports.next_num) \
+        if reports.has_next else None
+        
+    prev_url = url_for('main.college_explore', page=reports.prev_num) \
+        if reports.has_prev else None
+        
+    return render_template('college-explore.html', title=college, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len, recents=recents)
+
+
+@main.route('/search/<query>', methods=['POST', 'GET'], defaults={'page':1})
+@main.route('/search/<query>/<int:page>', methods=['POST', 'GET'])
+def search(query, page):
+    search_params = "%{}%".format(query)
+    
+    reports = Reports.query.filter(Reports.title.ilike(search_params) | Reports.abstract.ilike(search_params)).paginate(page=page, per_page=5)
+    
+    recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
+    report_len = Reports
+    
     next_url = url_for('main.home', page=reports.next_num) \
         if reports.has_next else None
         
     prev_url = url_for('main.home', page=reports.prev_num) \
         if reports.has_prev else None
         
-    return render_template('college-explore.html', title=college, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len, recents=recents)
+    return render_template('search-results.html', title="Search Results", reports=reports, recents=recents, report_len=report_len, next_url=next_url, prev_url=prev_url, query=query)
 
 
 @main.route("/logout")
