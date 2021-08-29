@@ -53,12 +53,25 @@
                     <li class="nav-link">
                         <a href="{{url_for('main.colleges')}}">Colleges</a>
                     </li>
-                    <li class="nav-link">
-                        <a href="{{url_for('students.dashboard')}}">Project-Group</a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="{{url_for('students.upload_report')}}">Upload</a>
-                    </li>
+                    
+                        {% if student %}
+                        <li class="nav-link">
+                            <a href="{{url_for('students.dashboard')}}">Project-Group</a>
+                        </li>
+                        {% endif %}
+
+                        {% if student.group_leader %}
+                        <li class="nav-link">
+                            <a href="{{url_for('students.upload_report')}}">Upload</a>
+                        </li>
+                        {% endif %}
+
+                        {% if lecturer %}
+                        <li class="nav-link">
+                            <a href="{{url_for('lecturers.dashboard')}}">Student-Group</a>
+                        </li>
+                        {% endif %}
+                    
                     {% endif %}
                 </ul>
             </div>

@@ -30,8 +30,7 @@ def home(page):
     recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
     
-    
-    carousels = Reports.query.filter_by(published=True).order_by(func.random()).limit(4).all()
+    carousels = Reports.query.filter_by(published=True).order_by(func.random()).limit(5).all()
     
     
     next_url = url_for('main.home', page=reports.next_num) \
