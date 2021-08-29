@@ -21,7 +21,7 @@ def dashboard():
     return render_template('groups.html', title='Groups', lecturer=lecturer, groups=groups, report=report)
 
 
-@lecturers.route('/abstract/<group_id>', methods=['GET', 'POST'])
+@lecturers.route('/<group_id>/abstract', methods=['GET', 'POST'])
 @login_required
 def abstract(group_id):
     lecturer = current_user
