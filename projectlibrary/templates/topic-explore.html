@@ -2,6 +2,12 @@
 {% block custom_styles %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/Style.css')}}">
 <link rel="stylesheet" href="{{url_for('static', filename='css/explore.css')}}">
+
+<style>
+    .active-page {
+        background: skyblue !important;
+    }
+</style>
 {% endblock custom_styles %}
 
 {% block content %}

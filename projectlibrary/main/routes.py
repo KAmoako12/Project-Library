@@ -78,8 +78,8 @@ def colleges():
     return render_template('colleges.html', title='Colleges')
 
 
-@main.route("/explore/<topic>", methods=['POST', 'GET'], defaults={'page':1})
-@main.route("/explore/<topic>/<int:page>", methods=['POST', 'GET'])
+@main.route("/explore/topic/<topic>", methods=['POST', 'GET'], defaults={'page':1})
+@main.route("/explore/topic/<topic>/<int:page>", methods=['POST', 'GET'])
 def topic_explore(topic, page):
      #taking care of the reports
     reports = Reports.query.filter_by(published=True, topic=topic).paginate(page=page, per_page=4)
@@ -92,6 +92,22 @@ def topic_explore(topic, page):
         if reports.has_prev else None
         
     return render_template('topic-explore.html', title=topic, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len)
+
+
+@main.route("/explore/college/<college>", methods=['POST', 'GET'], defaults={'page':1})
+@main.route("/explore/college/<college>/<int:page>", methods=['POST', 'GET'])
+def college_explore(college, page):
+     #taking care of the reports
+    reports = Reports.query.filter_by(published=True, college=college).paginate(page=page, per_page=4)
+    report_len = Reports
+    
+    next_url = url_for('main.home', page=reports.next_num) \
+        if reports.has_next else None
+        
+    prev_url = url_for('main.home', page=reports.prev_num) \
+        if reports.has_prev else None
+        
+    return render_template('college-explore.html', title=college, reports=reports, prev_url=prev_url, next_url=next_url, report_len=report_len)
 
 
 @main.route("/logout")
