@@ -225,3 +225,43 @@ def report_full(group_id):
             
         return redirect(url_for('lecturers.abstract', group_id=group_id))
     return render_template('lecturer-introduction.html', lecturer=lecturer, report=report, intro=intro_url, students=students, comments=comments)
+
+
+@lecturers.route('/publish-report/<report_id>', methods=['GET', 'POST'])
+@login_required
+def publish_report(report_id):
+    report = Reports.query.filter_by(id=report_id).first()
+    
+    lecturer = current_user
+    if lecturer.staff_id == report.supervisor or lecturer.hod:
+        if report.full_report:
+            report.published = True
+            db.session.commit()
+            flash('The report has been published successfully!', 'success')
+            
+        else:
+            flash('The full report needs to be published first!', 'warning')
+    else:
+        flash('Only Supervisors or HODS can publish the reports!', 'warning')
+        
+    return redirect(url_for('lecturers.abstract', group_id=report.group_id))
+
+
+@lecturers.route('/unpublish-report/<report_id>', methods=['GET', 'POST'])
+@login_required
+def unpublish_report(report_id):
+    report = Reports.query.filter_by(id=report_id).first()
+    
+    lecturer = current_user
+    if lecturer.staff_id == report.supervisor or lecturer.hod:
+        if report.published:
+            report.published = False
+            db.session.commit()
+            flash('The report has been removed from publishment successfully!', 'success')
+            
+        else:
+            flash('The full report needs to be published first!', 'warning')
+    else:
+        flash('Only Supervisors or HODS can unpublish the reports!', 'warning')
+        
+    return redirect(url_for('lecturers.abstract', group_id=report.group_id))

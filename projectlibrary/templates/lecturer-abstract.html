@@ -17,7 +17,7 @@
     .textarea {
         margin: 0px; 
         height: 479px; 
-        width: 837px;
+        width: 770px;
         overflow: scroll;
     }
     
@@ -93,6 +93,14 @@
             {% endif %}
         {% endfor %}
         <button onclick="document.getElementById('commentModal').style.display='block'">Add Comment</button>
+        
+        {% if report.full_report and report.published != True %}
+        <p>Report Is Not Published</p>
+        <button id="publishBtn" style="background-color: forestgreen;" onclick="window.location.href='{{url_for('lecturers.publish_report', report_id=report.id)}}'">Publish Full Post</button>
+        {% elif report.full_report and report.published %}
+        <p>Report Is Published</p>
+        <button id="unPublishBtn" style="background-color: orangered;" onclick="window.location.href='{{url_for('lecturers.unpublish_report', report_id=report.id)}}'">Remove Publishment</button>
+        {% endif %}
         
         {% if comments %}
         {% for comment in comments %}

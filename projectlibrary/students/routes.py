@@ -125,48 +125,7 @@ def report_full():
     intro_url = url_for('static', filename='pdfs/' + report.full_report)
     
     return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
-
-
-@students.route('/publish-report/<report_id>', methods=['GET', 'POST'])
-@login_required
-def publish_report(report_id):
-    report = Reports.query.filter_by(id=report_id).first()
-    
-    student = current_user
-    if student.group_leader:
-        if report.full_report:
-            report.published = True
-            db.session.commit()
-            flash('Your report has been published successfully!', 'success')
-            
-        else:
-            flash('Your full report needs to be published first!', 'warning')
-    else:
-        flash('Only Group Leaders can publish the reports!', 'warning')
         
-    return redirect(url_for('students.dashboard'))
-
-
-@students.route('/unpublish-report/<report_id>', methods=['GET', 'POST'])
-@login_required
-def unpublish_report(report_id):
-    report = Reports.query.filter_by(id=report_id).first()
-    
-    student = current_user
-    if student.group_leader:
-        if report.published:
-            report.published = False
-            db.session.commit()
-            flash('Your report has been removed from publishment successfully!', 'success')
-            
-        else:
-            flash('Your report needs to be published first!', 'warning')
-    else:
-        flash('Only Group Leaders can unpublish the reports!', 'warning')
-        
-    return redirect(url_for('students.dashboard'))
-        
-
 
 @students.route('/upload-report', methods=['GET', 'POST'])
 @login_required

@@ -77,16 +77,7 @@
         </object>
         -->
     </div>
-    <div class="comment">
-        {% if report.full_report and student.group_leader and report.published != True %}
-        <p>Report Is Not Published</p>
-        <button id="publishBtn" onclick="window.location.href='{{url_for('students.publish_report', report_id=report.id)}}'">Publish Full Post</button>
-        {% elif report.full_report and student.group_leader and report.published %}
-        <p>Report Is Published</p>
-        <button id="unPublishBtn" onclick="window.location.href='{{url_for('students.unpublish_report', report_id=report.id)}}'">Remove Publishment</button>
-        {% endif %}
-        
-        
+    <div class="comment">      
         {% if comments %}
         {% for comment in comments %}
         <ul class="comment-list">
