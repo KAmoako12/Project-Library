@@ -2,6 +2,7 @@ from flask import render_template, url_for, flash, redirect, Blueprint, request,
 from flask_login import login_user, logout_user, current_user, login_required
 from projectlibrary import app, db, bcrypt
 from projectlibrary.models import *
+from projectlibrary.forms import NewStudentForm
 import os
 import logging
 import uuid
@@ -57,6 +58,32 @@ def create_student():
             group_leader = request.form['groupleader']
             staff_id = request.form['staffid']
             
+            #validation
+            student_check = Students.query.filter_by(username=username).first()
+            lecturer_check = Lecturers.query.filter_by(username=username).first()
+            
+            if student_check or lecturer_check:
+                flash('This Username is not available!', 'warning')
+                return redirect(url_for('admin.create_student'))
+            
+            student_email = Students.query.filter_by(email=email).first()
+            lecturer_email = Lecturers.query.filter_by(email=email).first()
+            
+            if student_email or lecturer_email:
+                flash('This Email is taken!', 'warning')
+                return redirect(url_for('admin.create_student'))
+            
+            lecturer_confirm = Lecturers.query.filter_by(staff_id=staff_id).first()
+            if not lecturer_confirm:
+                flash('That Staff ID does not exist', 'warning')
+                return redirect(url_for('admin.create_student'))
+            
+            
+            index_check = Students.query.filter_by(index_number=index_number).first()
+            if index_check:
+                flash('That Index Number is unavailable!')
+                return redirect(url_for('admin.create_student'))
+            
             #hash the password
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
@@ -74,7 +101,7 @@ def create_student():
                 flash('New Student Added!', 'success')
                 return redirect(url_for('admin.dashboard'))
             except:
-                flash('Some of your credentials have been used', 'warning')
+                flash('Something went wrong! Try again', 'warning')
             
         return render_template('create-student.html', title="Super Admin Dashboard")
 
@@ -148,6 +175,26 @@ def create_lecturer():
             college = request.form['college']
             hod = request.form['hod']
             department = request.form['department']
+            
+            #validation
+            student_check = Students.query.filter_by(username=username).first()
+            lecturer_check = Lecturers.query.filter_by(username=username).first()
+            
+            if student_check or lecturer_check:
+                flash('This Username is not available!', 'warning')
+                return redirect(url_for('admin.create_lecturer'))
+            
+            student_email = Students.query.filter_by(email=email).first()
+            lecturer_email = Lecturers.query.filter_by(email=email).first()
+            
+            if student_email or lecturer_email:
+                flash('This Email is taken!', 'warning')
+                return redirect(url_for('admin.create_lecturer'))
+            
+            lecturer_confirm = Lecturers.query.filter_by(staff_id=staff_id).first()
+            if lecturer_confirm:
+                flash('That Staff ID has been taken!', 'warning')
+                return redirect(url_for('admin.create_lecturer'))
             
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             

@@ -4,6 +4,8 @@ from projectlibrary import app, db, bcrypt
 from projectlibrary.models import *
 
 
+
+
 lecturers = Blueprint('lecturers', __name__)
 
 @lecturers.route('/dashboard', methods=['GET', 'POST'])

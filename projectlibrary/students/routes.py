@@ -14,11 +14,6 @@ def dashboard():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
-    if report.testing_and_evaluation:
-        print('Yay')
-    else:
-        print('Yoes')
-    
     abstract_text = None
     
     comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
