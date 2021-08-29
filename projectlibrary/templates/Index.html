@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/Style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/loginstyle.css')}}">
     <link rel="shortcut icon" type="image/jpg" href="https://apps.knust.edu.gh/img/logo.png"/>
+    
+    <style>
+        .active-page{
+            background: skyblue !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -88,7 +94,7 @@
             <div class="site-background" data-aos="fade-up" data-aos-delay="100">
                 <h3>Reports, Disseminations & Thesis</h3>
                 <h1>Project Library</h1>
-                <a href="explore.html"><button class="btn">Explore</button></a>
+                <a href="{{url_for('main.colleges')}}"><button class="btn">Explore</button></a>
 
             </div>
         </section>
@@ -99,7 +105,7 @@
 
         <section>
             <div class="blog">
-                <div class="container">   {#{{url_for('static', filename='')}}#}
+                <div class="container">
                     <div class="owl-carousel owl-theme blog-post">
                         <div class="blog-content" data-aos="fade-right" data-aos-delay="200">
                             <img src="{{url_for('static', filename='assets/Blog-post/post-1.jpg')}}" alt="post-1">
@@ -149,93 +155,59 @@
         <section class="container">
             <div class="site-content">
                 <div class="posts">
+                    {% if reports.items | length != 0 %}
+                    {% for report in reports.items %}
                     <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
                         <div class="post-image">
                             <div>
-                                <img src="./assets/Blog-post/blog1.png" class="img" alt="blog1">
+                                <img src="{{url_for('static', filename='project-images/'+report.image)}}" class="img" alt="blog1">
                             </div>
                             <div class="post-info flex-row">
-                                <span><i class="fas fa-user text-gray"></i>&nbsp;&nbsp;Admin</span>
-                                <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January 14, 2019</span>
-                                <span>2 Comments</span>
+                                <span><i class="fas fa-user text-gray"></i>&nbsp;&nbsp;{{report.group_id}}</span>
+                                <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{report.updated_at.strftime('%B %d, %Y')}}</span>
+                                {#<span>2 Comments</span>#}
                             </div>
                         </div>
                         <div class="post-title">
-                            <a href="#">Why should boys have all the fun? it's the women who are making india an
-                                alcohol-loving contry</a>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque voluptas deserunt beatae adipisci iusto totam placeat corrupti ipsum, tempora magnam incidunt aperiam tenetur a nobis, voluptate, numquam architecto fugit. Eligendi
-                                quidem ipsam ducimus minus magni illum similique veniam tempore unde?
+                            <a href="#">{{report.title}}</a>
+                            <p>{{report.abstract[:290]}}...
                             </p>
-                            <button class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button>
+                            <button onclick="window.location.href='{{url_for('main.abstract', report_id=report.id)}}'" class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
                     <hr>
-                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="post-image">
-                            <div>
-                                <img src="./assets/Blog-post/blog2.png" class="img" alt="blog1">
-                            </div>
-                            <div class="post-info flex-row">
-                                <span><i class="fas fa-user text-gray"></i>&nbsp;&nbsp;Admin</span>
-                                <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January 16, 2019</span>
-                                <span>7 Comments</span>
-                            </div>
-                        </div>
-                        <div class="post-title">
-                            <a href="#">Why should boys have all the fun? it's the women who are making india an
-                                alcohol-loving contry</a>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque voluptas deserunt beatae adipisci iusto totam placeat corrupti ipsum, tempora magnam incidunt aperiam tenetur a nobis, voluptate, numquam architecto fugit. Eligendi
-                                quidem ipsam ducimus minus magni illum similique veniam tempore unde?
-                            </p>
-                            <button class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="post-image">
-                            <div>
-                                <img src="./assets/Blog-post/blog3.png" class="img" alt="blog1">
-                            </div>
-                            <div class="post-info flex-row">
-                                <span><i class="fas fa-user text-gray"></i>&nbsp;&nbsp;Admin</span>
-                                <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January 19, 2019</span>
-                                <span>5 Comments</span>
-                            </div>
-                        </div>
-                        <div class="post-title">
-                            <a href="#">New data recording system to better analyse road accidents</a>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque voluptas deserunt beatae adipisci iusto totam placeat corrupti ipsum, tempora magnam incidunt aperiam tenetur a nobis, voluptate, numquam architecto fugit. Eligendi
-                                quidem ipsam ducimus minus magni illum similique veniam tempore unde?
-                            </p>
-                            <button class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="post-image">
-                            <div>
-                                <img src="./assets/Blog-post/blog4.png" class="img" alt="blog1">
-                            </div>
-                            <div class="post-info flex-row">
-                                <span><i class="fas fa-user text-gray"></i>&nbsp;&nbsp;Admin</span>
-                                <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January 21, 2019</span>
-                                <span>12 Comments</span>
-                            </div>
-                        </div>
-                        <div class="post-title">
-                            <a href="#">New data recording system to better analyse road accidents</a>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque voluptas deserunt beatae adipisci iusto totam placeat corrupti ipsum, tempora magnam incidunt aperiam tenetur a nobis, voluptate, numquam architecto fugit. Eligendi
-                                quidem ipsam ducimus minus magni illum similique veniam tempore unde?
-                            </p>
-                            <button class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    
+                    {% else %}
+                    <p>No Reports Available Yet!</p>
+                    {% endif %}
+                    
+                    
                     <div class="pagination flex-row">
-                        <a href="#"><i class="fas fa-chevron-left"></i></a>
-                        <a href="#" class="pages">1</a>
-                        <a href="#" class="pages">2</a>
-                        <a href="#" class="pages">3</a>
-                        <a href="#"><i class="fas fa-chevron-right"></i></a>
+                        {# if there is a previous page, give it the prev link else leave it  #}
+                        {% if prev_url %}
+                            <a href="{{prev_url}}"><i class="fas fa-chevron-left"></i></a>
+                        {% else %}
+                            <a href="#"><i class="fas fa-chevron-left"></i></a>
+                        {% endif %}
+                        
+                        {% for page_num in reports.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)%}
+                            {% if page_num %}
+                                {% if reports.page == page_num %}
+                                    <a href="{{url_for('main.home', page=page_num)}}" class="pages active-page">{{page_num}}</a>
+                                {% else %}
+                                    <a href="{{url_for('main.home', page=page_num)}}" class="pages">{{page_num}}</a>
+                                {% endif %}
+                            {% else %}
+                            <a href="#" class="pages">...</a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if next_url %}
+                            <a href="{{next_url}}"><i class="fas fa-chevron-right"></i></a>
+                        {% else %}
+                            <a href="#"><i class="fas fa-chevron-right"></i></a>
+                        {% endif %}
                     </div>
                 </div>
                 <aside class="sidebar">
@@ -265,7 +237,7 @@
                         </ul>
                     </div>
                     <div class="popular-post">
-                        <h2>Popular Post</h2>
+                        <h2>Recent Posts</h2>
                         <div class="post-content" data-aos="flip-up" data-aos-delay="200">
                             <div class="post-image">
                                 <div>
