@@ -85,23 +85,23 @@
                         <ul class="category-list">
                             <li class="list-items" data-aos="fade-left" data-aos-delay="100">
                                 <a href="{{url_for('main.topic_explore', topic='Software')}}">Software</a>
-                                <span>({{report_len.query.filter_by(topic='Software').all() | length }})</span>
+                                <span>({{report_len.query.filter_by(topic='Software', published=True).all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="200">
                                 <a href="{{url_for('main.topic_explore', topic='Technology')}}">Techonlogy</a>
-                                <span>({{report_len.query.filter_by(topic='Technology').all() | length }})</span>
+                                <span>({{report_len.query.filter_by(topic='Technology', published=True).all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="300">
                                 <a href="{{url_for('main.topic_explore', topic='Lifestyle')}}">Lifestyle</a>
-                                <span>({{report_len.query.filter_by(topic='Lifestyle').all() | length }})</span>
+                                <span>({{report_len.query.filter_by(topic='Lifestyle', published=True).all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="400">
                                 <a href="{{url_for('main.topic_explore', topic='Shopping')}}">Shopping</a>
-                                <span>({{report_len.query.filter_by(topic='Shopping').all() | length }})</span>
+                                <span>({{report_len.query.filter_by(topic='Shopping', published=True).all() | length }})</span>
                             </li>
                             <li class="list-items" data-aos="fade-left" data-aos-delay="500">
                                 <a href="{{url_for('main.topic_explore', topic='Food')}}">Food</a>
-                                <span>({{report_len.query.filter_by(topic='Food').all() | length }})</span>
+                                <span>({{report_len.query.filter_by(topic='Food', published=True).all() | length }})</span>
                             </li>
                         </ul>
                     </div>
