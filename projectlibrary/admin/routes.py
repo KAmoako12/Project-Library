@@ -107,6 +107,21 @@ def create_student():
                 return redirect(url_for('admin.create_student'))
             
             
+            #groups validation
+            # search through students, if that group_id exists, check if that student's supervisor is the same
+            validate_supervisor = Students.query.filter_by(group_id=group_id).first()
+            
+            if validate_supervisor.staff_id != staff_id:
+                flash('That is not the assigned supervisor for this group!', 'warning')
+                return redirect(url_for('admin.create_student'))
+            
+            validate_leader = Students.query.filter_by(group_id=group_id, group_leader=True).first()
+            
+            if group_leader == '1' and validate_leader:
+                flash('That group already has a leader!', 'warning')
+                return redirect(url_for('admin.create_student'))
+            
+            
             index_check = Students.query.filter_by(index_number=index_number).first()
             if index_check:
                 flash('That Index Number is unavailable!')
