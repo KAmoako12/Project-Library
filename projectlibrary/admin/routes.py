@@ -10,17 +10,45 @@ import uuid
 admin = Blueprint('admin', __name__)
 
 
-@admin.route("/", methods=['POST', 'GET'])
-@admin.route("/dashboard", methods=['POST', 'GET'])
-def dashboard():
+@admin.route("/", methods=['POST', 'GET'], defaults={'page':1})
+@admin.route("/dashboard", methods=['POST', 'GET'], defaults={'page':1})
+@admin.route("/dashboard/<int:page>", methods=['POST', 'GET'])
+def dashboard(page):
     admin_username = 'admin'
     admin_password = 'admin'
 
     if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
         # change to pagination
-        students = Students.query.all()
-        lecturers = Lecturers.query.all()
-        return render_template('admin-dashboard.html', title="Super Admin Dashboard", students=students, lecturers=lecturers)
+        students = Students.query.paginate(page=page, per_page=5)
+        
+        next_url = url_for('admin.dashboard', page=students.next_num) \
+            if students.has_next else None
+        
+        prev_url = url_for('admin.dashboard', page=students.prev_num) \
+            if students.has_prev else None
+        return render_template('admin-dashboard.html', title="Super Admin Dashboard", students=students, next_url=next_url, prev_url=prev_url)
+
+    logging.warn(request.__dict__)
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+
+
+
+@admin.route("/lecturers", methods=['POST', 'GET'], defaults={'page':1})
+@admin.route("/lecturers/<int:page>", methods=['POST', 'GET'])
+def lecturers(page):
+    admin_username = 'admin'
+    admin_password = 'admin'
+
+    if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
+        # change to pagination
+        lecturers = Lecturers.query.paginate(page=page, per_page=5)
+        
+        next_url = url_for('admin.lecturers', page=lecturers.next_num) \
+            if lecturers.has_next else None
+        
+        prev_url = url_for('admin.lecturers', page=lecturers.prev_num) \
+            if lecturers.has_prev else None
+        return render_template('show-lecturers.html', title="Super Admin Dashboard", lecturers=lecturers)
 
     logging.warn(request.__dict__)
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})

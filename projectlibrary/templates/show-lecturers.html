@@ -1,0 +1,83 @@
+{% extends "admin-layout.html" %}
+{% block custom_styles %}
+<style>
+    .button {
+        border: none;
+        padding: 15px 32px;
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+        text-align: center;
+        margin: 4px 2px;
+    }
+</style>
+{% endblock custom_styles %}
+{% block content %}
+
+<!----------------------------- Main Site Section ------------------------------>
+<button><a href="{{url_for('admin.create_student')}}">Add New Student</a></button>
+<button><a href="{{url_for('admin.create_lecturer')}}">Add New Lecturer</a></button>
+<button id="showStudents"><a href="{{url_for('admin.dashboard')}}">Show Students</a></button>
+<button id="showLecturers"><a href="{{url_for('admin.lecturers')}}">Show Lecturers</a></button>
+
+
+<div id="lecturersTable" class="customers-container">
+    {% if lecturers.items | length != 0 %}
+    <table id="customers">
+        <thead>
+            <th>ID</th>
+            <th>Staff ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th colspan="2">Action</th>
+        </thead>
+        {% for lecturer in lecturers.items %}
+        <tr>
+            <td>{{lecturer.id}}</td>
+            <td>{{lecturer.staff_id}}</td>
+            <td>{{lecturer.name}}</td>
+            <td>{{lecturer.username}}</td>
+            <td>{{lecturer.department}}</td>
+            <td>{{lecturer.email}}</td>
+            <td><a href="{{url_for('admin.edit_lecturer', lecturer_id=lecturer.id)}}" class="edit">Edit</a></td>
+            <td><a href="{{url_for('admin.delete_user', user_id=lecturer.id)}}" class="delete">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Lecturer Database</p>
+    {% endif %}
+    
+    <br><br>
+    <div class="pagination flex-row">
+    {# if there is a previous page, give it the prev link else leave it  #}
+    {% if prev_url %}
+    <a href="{{prev_url}}"><i class="fas fa-chevron-left"></i></a>
+    {% else %}
+    <a href="#"><i class="fas fa-chevron-left"></i></a>
+    {% endif %}
+
+    {% for page_num in lecturers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)%}
+    {% if page_num %}
+    {% if lecturers.page == page_num %}
+    <a href="{{url_for('admin.lecturers', page=page_num)}}" class="pages active-page">{{page_num}}</a>
+    {% else %}
+    <a href="{{url_for('admin.lecturers', page=page_num)}}" class="pages">{{page_num}}</a>
+    {% endif %}
+    {% else %}
+    <a href="#" class="pages">...</a>
+    {% endif %}
+    {% endfor %}
+
+    {% if next_url %}
+    <a href="{{next_url}}"><i class="fas fa-chevron-right"></i></a>
+    {% else %}
+    <a href="#"><i class="fas fa-chevron-right"></i></a>
+    {% endif %}
+</div>
+</div>
+
+
+{% endblock content %}
