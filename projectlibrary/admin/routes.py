@@ -153,7 +153,7 @@ def edit_student(student_id):
             raw_password = request.form['password']
             college = request.form['college']
             program = request.form['programme']
-            group_leader = request.form['group_leader']
+            group_leader = request.form['groupleader']
             staff_id = request.form['staffid']
             
             
