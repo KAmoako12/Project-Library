@@ -167,7 +167,7 @@ p {
   font-size: 1rem;
   font-family: var(--Livvic);
   cursor: pointer;
-  background: var(--sky);
+/*  background: var(--sky);*/
 }
 .nav .social .avatar {
   border: 1px solid;
@@ -223,7 +223,7 @@ h3 {
 
 main .site-title .btn {
   margin: 1.8rem 0rem;
-  background: var(--sky);
+/*  background: var(--sky);*/
 }
 
 main .site-title .btn:hover {
