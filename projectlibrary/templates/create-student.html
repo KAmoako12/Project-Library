@@ -43,10 +43,44 @@
         </select>
         
         <label for="programme">Programme</label>
-        <input type="text" id="programme" name="programme" placeholder="Programme" required>
+        <select type="text" id="programme" name="programme">
+            
+        </select>
 
         <input type="submit" value="Submit">
     </form>
 </div>
 <!----------------------------- // Main Site Section ------------------------------>
+
+<script>
+    
+    var url = "https://lecture-monitor.herokuapp.com/api/departments";
+    var jsonList;
+    fetch(url).then(function (response) {
+            return response.json();
+        }).then(function(body){
+       jsonList = body.data;
+        
+        function loadlist(selobj, url) {
+        var categories = [];
+        $(selobj).empty();
+        $(selobj).append('<option value="0">--Select Department--</option>')
+        $(selobj).append(
+            $.map(jsonList.departments, function(el, i) {
+
+                if ($.inArray(el.name, categories) == -1) {
+                    categories.push(el.name);
+                    return $('<option>').val(el.name).text(el.name);
+                    console.log($(el.name));
+                }
+            }));
+    }
+
+
+    loadlist($('#programme').get(0), jsonList);
+
+
+    });
+    
+</script>
 {% endblock content %}
