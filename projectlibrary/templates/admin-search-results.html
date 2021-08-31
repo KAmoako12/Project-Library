@@ -34,33 +34,29 @@
 </div>
 
 
-<div id="studentsTable" class="customers-container">
-    {% if students.items | length != 0 %}
+<div id="resultsTable" class="customers-container">
+    {% if users.items | length != 0 %}
     <table id="customers">
         <thead>
             <th>ID</th>
-            <th>Index Number</th>
             <th>Name</th>
             <th>Username</th>
             <th>Programme</th>
-            <th>Group</th>
             <th>Email</th>
             <th colspan="2">Action</th>
         </thead>
-        {% for student in students.items %}
+        {% for user in users.items %}
         <tr>
-            <td>{{student.id}}</td>
-            <td>{{student.index_number}}</td>
-            <td>{{student.name}}</td>
-            <td>{{student.username}}</td>
-            <td>{{student.program}}</td>
-            <td>{{student.group_id}}</td>
-            <td>{{student.email}}</td>
-            <td><a href="{{url_for('admin.edit_student', student_id=student.id)}}" class="edit button w3-button w3-black">Edit</a></td>
-            <td><button onclick="document.getElementById('delete-{{student.id}}').style.display='block'" class="w3-button w3-red">Delete</button></td>
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.program}}</td>
+            <td>{{user.email}}</td>
+            {#<td><a href="{{url_for('admin.edit_student', student_id=user.id)}}" class="edit button w3-button w3-black">Edit</a></td>
+            <td><button onclick="document.getElementById('delete-{{student.id}}').style.display='block'" class="w3-button w3-red">Delete</button></td>#}
         </tr>
         
-        <div id="delete-{{student.id}}" class="w3-modal" style="display: none;">
+        {#<div id="delete-{{student.id}}" class="w3-modal" style="display: none;">
             <div class="w3-modal-content w3-animate-top w3-card-4">
                 <header class="w3-container w3-teal">
                     <span onclick="document.getElementById('delete-{{student.id}}').style.display='none'" class="w3-button w3-display-topright">&times;</span>
@@ -71,40 +67,17 @@
                     <button onclick="document.getElementById('delete-{{student.id}}').style.display='none'" class="button" style="background-color: #4CAF50;">No</button>
                 </div>
             </div>
-        </div>
+        </div>#}
         {% endfor %}
     </table>
     {% else %}
-    <p>No Student Database</p>
+    <p>No User Exists in the Database</p>
     {% endif %}
     
     <br><br>
-    <div class="pagination flex-row">
-    {# if there is a previous page, give it the prev link else leave it  #}
-    {% if prev_url %}
-    <a href="{{prev_url}}"><i class="fas fa-chevron-left"></i></a>
-    {% else %}
-    <a href="#"><i class="fas fa-chevron-left"></i></a>
-    {% endif %}
+{#
 
-    {% for page_num in students.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)%}
-    {% if page_num %}
-    {% if students.page == page_num %}
-    <a href="{{url_for('admin.dashboard', page=page_num)}}" class="pages active-page">{{page_num}}</a>
-    {% else %}
-    <a href="{{url_for('admin.dashboard', page=page_num)}}" class="pages">{{page_num}}</a>
-    {% endif %}
-    {% else %}
-    <a href="#" class="pages">...</a>
-    {% endif %}
-    {% endfor %}
-
-    {% if next_url %}
-    <a href="{{next_url}}"><i class="fas fa-chevron-right"></i></a>
-    {% else %}
-    <a href="#"><i class="fas fa-chevron-right"></i></a>
-    {% endif %}
-</div>
+#}
 </div>
 
 

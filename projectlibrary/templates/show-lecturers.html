@@ -3,22 +3,35 @@
 <style>
     .button {
         border: none;
-        padding: 15px 32px;
-        text-decoration: none;
-        display: inline-block;
-        cursor: pointer;
-        text-align: center;
-        margin: 4px 2px;
+    padding: 8px 29px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    margin: 4px 2px;
+    border-radius: 26px;
+    }
+    .customers-container{
+       max-width: 70rem !important;
+    }
+    .menu-button{
+        margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
     }
 </style>
 {% endblock custom_styles %}
 {% block content %}
 
 <!----------------------------- Main Site Section ------------------------------>
-<button><a href="{{url_for('admin.create_student')}}">Add New Student</a></button>
-<button><a href="{{url_for('admin.create_lecturer')}}">Add New Lecturer</a></button>
-<button id="showStudents"><a href="{{url_for('admin.dashboard')}}">Show Students</a></button>
-<button id="showLecturers"><a href="{{url_for('admin.lecturers')}}">Show Lecturers</a></button>
+<div class="menu-button">
+    <button><a href="{{url_for('admin.create_student')}}">Add New Student</a></button>
+    <button><a href="{{url_for('admin.create_lecturer')}}">Add New Lecturer</a></button>
+    <button id="showStudents"><a href="{{url_for('admin.dashboard')}}">Show Students</a></button>
+    <button id="showLecturers"><a href="{{url_for('admin.lecturers')}}">Show Lecturers</a></button>
+</div>
 
 
 <div id="lecturersTable" class="customers-container">
@@ -41,9 +54,22 @@
             <td>{{lecturer.username}}</td>
             <td>{{lecturer.department}}</td>
             <td>{{lecturer.email}}</td>
-            <td><a href="{{url_for('admin.edit_lecturer', lecturer_id=lecturer.id)}}" class="edit">Edit</a></td>
-            <td><a href="{{url_for('admin.delete_user', user_id=lecturer.id)}}" class="delete">Delete</a></td>
+            <td><a href="{{url_for('admin.edit_lecturer', lecturer_id=lecturer.id)}}" class="edit button w3-button w3-black">Edit</a></td>
+            <td><button onclick="document.getElementById('delete-{{lecturer.id}}').style.display='block'" class="w3-button w3-red">Delete</button></td>
         </tr>
+        
+        <div id="delete-{{lecturer.id}}" class="w3-modal" style="display: none;">
+            <div class="w3-modal-content w3-animate-top w3-card-4">
+                <header class="w3-container w3-teal">
+                    <span onclick="document.getElementById('delete-{{lecturer.id}}').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Confirm Delete</h2>
+                </header>
+                <div>
+                    <a class="button" href="{{url_for('admin.delete_user', user_id=lecturer.id)}}" style="background-color: #f44336;">Yes</a>
+                    <button onclick="document.getElementById('delete-{{lecturer.id}}').style.display='none'" class="button" style="background-color: #4CAF50;">No</button>
+                </div>
+            </div>
+        </div>
         {% endfor %}
     </table>
     {% else %}

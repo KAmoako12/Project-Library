@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from projectlibrary import app, db, bcrypt
 from projectlibrary.models import *
 from projectlibrary.forms import NewStudentForm
+from sqlalchemy import or_
 import os
 import logging
 import uuid
@@ -304,6 +305,31 @@ def edit_lecturer(lecturer_id):
 
     logging.warn(request.__dict__)
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+
+
+@admin.route("/search-results/<query>", methods=['POST', 'GET'], defaults={'page':1})
+@admin.route("/search-results/<query>/<page>", methods=['POST', 'GET'])
+def search_results(query, page):
+    search_params = "%{}%".format(query)
+    
+    users = Students.query.filter(or_(Students.username == query, Students.email == query, Students.name.ilike(search_params))).paginate(page=page, per_page=5)
+    
+    if len(users.items) == 0:
+        users = Lecturers.query.filter(or_(Lecturers.username == query, Lecturers.email == query, Lecturers.name.ilike(search_params))).paginate(page=page, per_page=5)
+    
+        if len(users.items) == 0:
+            users = None
+    
+    if users:
+        next_url = url_for('admin.search_results', query=query, page=users.next_num) \
+            if users.has_next else None
+
+        prev_url = url_for('admin.search_results', query=query, page=users.prev_num) \
+            if users.has_prev else None
+    else:
+        next_url = None
+        prev_url = None
+    return render_template('admin-search-results.html', users=users, next_url=next_url, prev_url=prev_url)
 
 
 @admin.route("/delete-user/<user_id>", methods=['POST', 'GET'])

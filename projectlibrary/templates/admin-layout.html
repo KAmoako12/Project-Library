@@ -97,6 +97,15 @@
         .active-page {
         background: skyblue !important;
         }
+        
+        .search {
+          position: relative;
+          display: flex;
+          font-family: "poppins";
+          justify-content: center;
+          padding: 0.5rem;
+          margin-top: 1rem;
+        }
     </style>
     <link rel="shortcut icon" type="image/jpg" href="https://apps.knust.edu.gh/img/logo.png">
 </head>
@@ -140,6 +149,8 @@
         </div>
     </nav>
     
+    
+    
 
     <!-- ------------x---------------  Navigation --------------------------x------------------- -->
 
@@ -182,6 +193,27 @@
        {% endif %}
        {% endwith %}
     </script>
+    
+    <div class="searchDiv">
+        <form id="search" class="search">
+        <input type="text" class="searchTerm" placeholder="Search" id="query" name="query">
+        <button type="button" id="searchBtn" class="searchButton">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+    </div>
+    
+    <script>
+    $('#searchBtn').on('click', function(){
+        var queryValue = $("#query").val();
+        var url = "/admin/search-results/"+ queryValue;
+        
+        console.log(url);
+        window.location.replace(url);
+    });
+
+</script>
+     
     {% block content %}
     {% endblock content %}
 
