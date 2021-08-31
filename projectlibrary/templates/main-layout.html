@@ -26,7 +26,18 @@
 
     <!-- Custom Style   --> 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    {% block custom_styles %}{% endblock custom_styles %}
+    {% block custom_styles %}
+    <style>
+    .w3-modal-content {
+            width: 400px;
+        }
+
+        .w3-container p {
+            padding: 1rem;
+        }
+    
+    </style>
+    {% endblock custom_styles %}
     <link rel="shortcut icon" type="image/jpg" href="https://apps.knust.edu.gh/img/logo.png"/>
 </head>
 

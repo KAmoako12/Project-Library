@@ -316,10 +316,12 @@ def delete_user(user_id):
         lecturer = Lecturers.query.filter_by(id=user_id).first()
         if student:
             #make sure deletion is cascading for it
+            flash('Student deleted successfully', 'success')
             db.session.delete(student)
             db.session.commit()
         elif lecturer:
             #make sure deletion is cascading
+            flash('Lecturer deleted successfully', 'success')
             db.session.delete(lecturer)
             db.session.commit()
         else:
