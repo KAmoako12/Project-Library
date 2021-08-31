@@ -4,7 +4,19 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
 <style>
     .chapters {
-        overflow: scroll;
+        min-width: 12rem;
+    padding: 0 !important;
+    height: 38rem;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    }
+    .chapters button{
+    width: 100%;
+    padding: 0 !important;
+    }
+    .chapters ul{
+        gap: 1.5rem !important;
     }
 
     .btn {
@@ -13,10 +25,14 @@
         display: flex;
     }
     
+    .students{
+        height: 10rem;
+    overflow-y: auto;
+    }
     .textarea {
         margin: 0px; 
-        height: 479px; 
-        width: 837px;
+        height: 30rem; 
+        width: 100%;
         overflow: scroll;
     }
     
@@ -25,6 +41,27 @@
         width: 892px; 
         height: 88px;
     }
+    main{
+    display: grid !important;
+    grid-template-columns: 1fr 3fr 1fr;
+        }
+    .publish{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
+    .comment-container{
+        height: 22rem;
+    overflow-y: auto;
+    margin: 5px 0rem;
+    }
+  
+  .comment-button{
+    background: green;
+    color: white;
+    margin-top: 1.5rem;
+  }
 </style>
 {% endblock css_files1 %}
 
@@ -75,62 +112,60 @@
         </ul>
     </div>
     <div class="pdf-container">
-        <!--
-        <iframe src="{{intro}}" width="100%" height="100%">
-        </iframe>
-        -->
-        <object type="application/pdf" data="{{intro}}" width="800" height="800">
-        </object>
-
-        <!--
-        <object data="https://docs.google.com/viewer?url={{intro}}&embedded=true" type="application/pdf">
-            <embed src="https://docs.google.com/viewer?url={{intro}}&embedded=true" type="application/pdf" />
-        </object>
-        -->
-    </div>
-     <div class="comment">
-         {# start div here #}
-        {% for student in students %}
-            {% if student.group_leader %}
-                <p>{{student.name}} - {{student.index_number}} [Group Leader]</p>
-            {% else %}
-                <p>{{student.name}} - {{student.index_number}}</p>
-            {% endif %}
-        {% endfor %}
-         {# end here #}
-        <button onclick="document.getElementById('commentModal').style.display='block'">Add Comment</button>
-         
+        <div class="pdf-container">
+           <object type="application/pdf" data="{{intro}}" width="800" height="450">
+            </object>
+        </div>
         {% if report.full_report and report.published != True %}
-        <p>Report Is Not Published</p>
-        <button id="publishBtn" style="background-color: forestgreen;" onclick="window.location.href='{{url_for('lecturers.publish_report', report_id=report.id)}}'">Publish Full Post</button>
+        <div class="publish">
+            <p>Report Is Not Published</p>
+            <button id="publishBtn" style="background-color: forestgreen; color: #ffffff;" onclick="window.location.href='{{url_for('lecturers.publish_report', report_id=report.id)}}'">Publish Full Post</button>
+        </div>
         {% elif report.full_report and report.published %}
-        <p>Report Is Published</p>
-        <button id="unPublishBtn" style="background-color: orangered;" onclick="window.location.href='{{url_for('lecturers.unpublish_report', report_id=report.id)}}'">Remove Publishment</button>
+        <div class="publish">
+            <p>Report Is Published</p>
+            <button id="unPublishBtn" style="background-color: orangered;" onclick="window.location.href='{{url_for('lecturers.unpublish_report', report_id=report.id)}}'">Remove Publishment</button>
+        </div>
         {% endif %}
+    </div>
+    
+     <div class="comment">
+        <div class="students">
+            {% for student in students %}
+                {% if student.group_leader %}
+                    <p>{{student.name}} - {{student.index_number}} [Group Leader]</p>
+                {% else %}
+                    <p>{{student.name}} - {{student.index_number}}</p>
+                {% endif %}
+            {% endfor %}
+         </div>
+        <div class="comment-container">
+            {% if comments %}
+            {% for comment in comments %}
+            <ul class="comment-list">
+                <li id="comment-62201" class="comment even thread-even depth-1">
+                    <article id="div-comment-62201" class="comment-body">
+                        <footer class="comment-meta">
+                            <div class="comment-author vcard">
+                                <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
+                            </div>
+                            <div class="comment-metadata">
+                                <a href="#"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
+                            </div>
+                        </footer>
+                        <div class="comment-content">
+                            <p>{{comment.comment}}</p>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+            {% endfor %}
+            {% else %}
+            <p>No Comments Yet</p>
+            {% endif %}
+        </div>
         
-        {% if comments %}
-        {% for comment in comments %}
-        <ul class="comment-list">
-            <li id="comment-62201" class="comment even thread-even depth-1">
-                <article id="div-comment-62201" class="comment-body">
-                    <footer class="comment-meta">
-                        <div class="comment-author vcard">
-                            <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
-                        </div>
-                        <div class="comment-metadata">
-                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
-                        </div>
-                    </footer>
-                    <div class="comment-content">
-                        <p>{{comment.comment}}</p>
-                    </div>
-                </article>
-            </li>
-        </ul>
-        {% endfor %}
-        {% else %}
-        <p>No Comments Yet</p>
-        {% endif %}
+        <button class="comment-button" onclick="document.getElementById('commentModal').style.display='block'">Add Comment</button>
     </div>
 </main>
 

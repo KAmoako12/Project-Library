@@ -13,7 +13,73 @@
         width: auto;
         display: flex;
     }
+    
+    .textarea {
+        margin: 0px; 
+        height: 479px; 
+        width: 837px;
+        overflow: scroll;
+    }
+    
+    .chapters {
+        min-width: 12rem;
+    padding: 0 !important;
+    height: 38rem;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    }
+    .chapters button{
+    width: 100%;
+    padding: 0 !important;
+    }
+    .chapters ul{
+        gap: 1.5rem !important;
+    }
 
+    .btn {
+        margin-top: 0;
+        width: auto;
+        display: flex;
+    }
+    
+    .students{
+        height: 10rem;
+    overflow-y: auto;
+    }
+    .textarea {
+        margin: 0px; 
+        height: 30rem; 
+        width: 100%;
+        overflow: scroll;
+    }
+    
+    .commentarea {
+        margin: 2px; 
+        width: 892px; 
+        height: 88px;
+    }
+    main{
+    display: grid !important;
+    grid-template-columns: 1fr 3fr 1fr;
+        }
+    .publish{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
+    .comment-container{
+        height: 22rem;
+    overflow-y: auto;
+    margin: 5px 0rem;
+    }
+  
+  .comment-button{
+    background: green;
+    color: white;
+    margin-top: 1.5rem;
+  }
 </style>
 {% endblock css_files1 %}
 
@@ -77,30 +143,32 @@
         </object>
         -->
     </div>
-    <div class="comment">      
-        {% if comments %}
-        {% for comment in comments %}
-        <ul class="comment-list">
-            <li id="comment-62201" class="comment even thread-even depth-1">
-                <article id="div-comment-62201" class="comment-body">
-                    <footer class="comment-meta">
-                        <div class="comment-author vcard">
-                            <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
+     <div class="comment">
+       <div class="comment-container">
+            {% if comments %}
+            {% for comment in comments %}
+            <ul class="comment-list">
+                <li id="comment-62201" class="comment even thread-even depth-1">
+                    <article id="div-comment-62201" class="comment-body">
+                        <footer class="comment-meta">
+                            <div class="comment-author vcard">
+                                <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
+                            </div>
+                            <div class="comment-metadata">
+                                <a href="#"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
+                            </div>
+                        </footer>
+                        <div class="comment-content">
+                            <p>{{comment.comment}}</p>
                         </div>
-                        <div class="comment-metadata">
-                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
-                        </div>
-                    </footer>
-                    <div class="comment-content">
-                        <p>{{comment.comment}}</p>
-                    </div>
-                </article>
-            </li>
-        </ul>
-        {% endfor %}
-        {% else %}
-        <p>No Comments Yet</p>
-        {% endif %}
+                    </article>
+                </li>
+            </ul>
+            {% endfor %}
+            {% else %}
+            <p>No Comments Yet</p>
+            {% endif %}
+        </div>
     </div>
 </main>
 
