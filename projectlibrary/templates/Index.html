@@ -327,6 +327,21 @@
           <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
           <img src="{{url_for('static', filename='assets/img_avatar2.png')}}" alt="Avatar" class="avatar">
         </div>
+        <div class="container" id="flashMessage">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <ul class=flashes>
+              {% for category, message in messages %}
+              <li class="{{ category }}">
+                  <center>
+                      <p class="m-auto p-auto">{{ message }}</p>
+                  </center>
+              </li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          {% endwith %}
+        </div>
     
         <div class="container">
           <label for="uname"><b>Username</b></label>
@@ -373,6 +388,7 @@
     <!-- Custom Javascript file -->
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
     
+<!--
     <div class="w3-container">
         <div id="flashModal" class="w3-modal">
             <div class="w3-modal-content w3-animate-top w3-card-4">
@@ -398,12 +414,14 @@
             </div>
         </div>
     </div>
+-->
     
     <script>
        {% with messages = get_flashed_messages(with_categories=true) %}
        {% if messages %}
             $(window).on('load', function(){
-                $('#flashModal').css('display', 'block');
+                $('#id01').css('display', 'block');
+                $("#flashMessage").fadeOut(5000);
             });
        {% endif %}
        {% endwith %}
