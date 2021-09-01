@@ -2,7 +2,7 @@
 
 {% block css_files1 %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
     .chapters {
         overflow: scroll;
@@ -13,17 +13,19 @@
         width: auto;
         display: flex;
     }
-    
+
     .textarea {
-        margin: 0px; 
-        height: 479px; 
+        margin: 0px;
+        height: 479px;
         width: 837px;
         overflow: scroll;
     }
-    .comment{
+
+    .comment {
         overflow: scroll;
     }
-    .coavatar{
+
+    .coavatar {
         display: inline-flex;
         height: 35px;
         width: 35px;
@@ -46,31 +48,31 @@
                 <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.literature_review != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_literature')}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.methodology != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_methodology')}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.testing_and_evaluation != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_testing')}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.conclusion != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_conclusion')}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.full_report != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_full')}}">FULL REPORT</a></li>
@@ -80,15 +82,16 @@
     </div>
     <div class="pdf-container">
         <div class="pdf-container">
-        <form action='' method='POST'>
-            {% if abstract_text == None %}
-                <textarea name="abstract" class="textarea" rows="4" cols="80" placeholder="Insert Abstract Here..."></textarea>
-            {% else %}
+            <form action='' method='POST'>
+                {% if abstract_text == None %}
+                <textarea name="abstract" class="textarea" rows="4" cols="80"
+                    placeholder="Insert Abstract Here..."></textarea>
+                {% else %}
                 <textarea name="abstract" class="textarea" rows='10' cols='10'>{{abstract_text}}</textarea>
-            {% endif %}
-            <button type="submit" style="background-color:#00b300; color: white;">Save</button>
-        </form>
-    </div>
+                {% endif %}
+                <button type="submit" style="background-color:#00b300; color: white;">Save</button>
+            </form>
+        </div>
     </div>
     <div class="comment">
         {% if comments %}
@@ -98,10 +101,19 @@
                 <article id="div-comment-62201" class="comment-body">
                     <footer class="comment-meta">
                         <div class="comment-author vcard">
-                            <b class="fn"><span><img class="coavatar" src="{{url_for('static', filename='assets/avatar.png')}}" alt="avatar"></span>{{lecturer.name}}</b> <span class="says">says:</span>
+                            <b class="fn"><span><img class="coavatar"
+                                        src="{{url_for('static', filename='assets/avatar.png')}}"
+                                        alt="avatar"></span>{{lecturer.name}}</b> <span class="says">says: </span>
                         </div>
                         <div class="comment-metadata">
-                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
+                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time
+                                    datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d,
+                                    %H:%M")}}</time></a>
+                            <a href="" class="delete" style="color: red;">
+                                <span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </span>
+                            </a>
                         </div>
                     </footer>
                     <div class="comment-content">
