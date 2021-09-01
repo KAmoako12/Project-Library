@@ -125,7 +125,7 @@ def college_explore(college, page):
 def search(query, page):
     search_params = "%{}%".format(query)
     
-    reports = Reports.query.filter(Reports.title.ilike(search_params) | Reports.abstract.ilike(search_params) | Reports.introduction.ilike(search_params) | Reports.literature.ilike(search_params) | Reports.methodology.ilike(search_params) | Reports.testing_and_evaluation.ilike(search_params) | Reports.conclusion.ilike(search_params)).paginate(page=page, per_page=5)
+    reports = Reports.query.filter(Reports.title.ilike(search_params) | Reports.abstract.ilike(search_params) | Reports.introduction.ilike(search_params) | Reports.literature_review.ilike(search_params) | Reports.methodology.ilike(search_params) | Reports.testing_and_evaluation.ilike(search_params) | Reports.conclusion.ilike(search_params)).paginate(page=page, per_page=5)
     
     
     recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
