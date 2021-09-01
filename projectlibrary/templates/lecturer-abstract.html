@@ -2,8 +2,27 @@
 
 {% block css_files1 %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <style>
+    .chapters {
+        overflow: scroll;
+    }
+
+    .btn {
+        margin-top: 0;
+        width: auto;
+        display: flex;
+    }
+
+    .textarea {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+    
     .chapters {
         min-width: 12rem;
     padding: 0 !important;
@@ -12,6 +31,7 @@
     display: flex;
     align-items: center;
     }
+    
     .chapters button{
     width: 100%;
     padding: 0 !important;
@@ -39,13 +59,14 @@
     
     .commentarea {
         margin: 2px; 
-        width: 892px; 
+        width: 99%; 
         height: 88px;
     }
     main{
     display: grid !important;
     grid-template-columns: 1fr 3fr 1fr;
-        }
+    }
+    
     .publish{
         display: flex;
     flex-direction: column;
@@ -63,6 +84,33 @@
     color: white;
     margin-top: 1.5rem;
   }
+    
+    
+    .standalone-container {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+/*
+#snow-container {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+*/
+    .comment{
+        overflow: scroll;
+    }
+
+    .coavatar {
+        display: inline-flex;
+        height: 35px;
+        width: 35px;
+        margin: 5px;
+    }
+
 </style>
 {% endblock css_files1 %}
 
@@ -72,39 +120,41 @@
 <main>
     <div class="chapters">
         <ul>
+            {% if report %}
             <button class="btn">
-            <li><a href="{{url_for('lecturers.abstract', group_id=report.group_id)}}">ABSTRACT</a></li>
+                <li><a href="{{url_for('lecturers.abstract', group_id=report.group_id)}}">ABSTRACT</a></li>
             </button>
-            {% if report and report.introduction != None %}
+            {% endif %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_intro', group_id=report.group_id)}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.literature_review != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_literature', group_id=report.group_id)}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.methodology != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_methodology', group_id=report.group_id)}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.testing_and_evaluation != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_testing', group_id=report.group_id)}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.conclusion != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_conclusion', group_id=report.group_id)}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.full_report != None %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_full', group_id=report.group_id)}}">FULL REPORT</a></li>
@@ -112,14 +162,19 @@
             {% endif %}
         </ul>
     </div>
+    
        <div class="pdf-container">
+            <center>{{page_title}}</center><br>
             <div class="pdf-container">
-                {% if report.abstract == None %}
-                    <textarea name="abstract" class="textarea" rows="4" cols="80" placeholder="No Abstract Entered" readonly>No Value Entered</textarea>
+                {% if report %}
+                    <div class="standalone-container">
+                        <div id="snow-container"></div><input id="reportAbstract" value="{{page_text}}" type="hidden">
+                    </div>
                 {% else %}
-                    <textarea name="abstract" class="textarea" readonly>{{report.abstract}}</textarea>
+                    <center><p>Kindly Upload Report Details First!</p></center>
                 {% endif %}
             </div>
+           
             {% if report.full_report and report.published != True %}
             <div class="publish">
                 <p>Report Is Not Published</p>
@@ -132,6 +187,7 @@
             </div>
         {% endif %}
         </div>
+    
     <div class="comment">
         <div class="students">
             {% for student in students %}
@@ -142,26 +198,45 @@
                 {% endif %}
             {% endfor %}
          </div>
-        <div class="comment-container">
-            {% if comments %}
-            {% for comment in comments %}
-            <ul class="comment-list">
-                <li id="comment-62201" class="comment even thread-even depth-1">
-                    <article id="div-comment-62201" class="comment-body">
-                        <footer class="comment-meta">
-                            <div class="comment-author vcard">
-                                <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
+        <div class="comment">
+        {% if comments %}
+        {% for comment in comments %}
+        <ul class="comment-list">
+            <li id="comment-62201" class="comment even thread-even depth-1">
+                <article id="div-comment-62201" class="comment-body">
+                    <footer class="comment-meta">
+                        <div class="comment-author vcard">
+                            <b class="fn"><span><img class="coavatar" src="{{url_for('static', filename='assets/avatar.png')}}" alt="avatar"></span>{{lecturer.name}}</b> <span class="says">says: </span> {{comment.comment}}
                             </div>
                             <div class="comment-metadata">
-                                <a href="#"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
-                            </div>
-                        </footer>
-                        <div class="comment-content">
-                            <p>{{comment.comment}}</p>
+                            <a href="#"><time
+                                    datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d,
+                                    %H:%M")}}</time></a>
+                                
+                            <a id="deleteAnchor" class="delete" style="color: red;" onclick="document.getElementById('delete-{{comment.id}}').style.display='block'">
+                                <span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </span>
+                            </a>
                         </div>
+                    </footer>
                     </article>
                 </li>
             </ul>
+            
+                <div id="delete-{{comment.id}}" class="w3-modal" style="display: none;">
+                <div class="w3-modal-content w3-animate-top w3-card-4">
+                    <header class="w3-container w3-teal">
+                        <span onclick="document.getElementById('delete-{{comment.id}}').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Confirm Delete</h2>
+                    </header>
+                    <div>
+                        <a class="button" href="{{url_for('lecturers.delete_comment', group_id=report.group_id, comment_id=comment.id)}}" style="background-color: #f44336;">Yes</a>
+                        <button onclick="document.getElementById('delete-{{comment.id}}').style.display='none'" class="button" style="background-color: #4CAF50;">No</button>
+                    </div>
+                </div>
+            </div>
+            
             {% endfor %}
             {% else %}
             <p>No Comments Yet</p>
@@ -177,7 +252,7 @@
         <div class="w3-modal-content w3-animate-top w3-card-4">
             <header class="w3-container w3-teal">
                 <span onclick="document.getElementById('commentModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-                <h2>Enter Your Comments Here</h2>
+                <h2>Enter Your Comments</h2>
             </header>
             <form method="POST" action=''>
                 <div>
@@ -188,6 +263,73 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+
+<script>
+    
+    
+var quill;
+    
+var metaData = [];
+$(document).ready(function() {
+  var toolbarOptions = [
+    ["bold", "italic", "underline", "strike"],
+    ['image', 'code-block'],// toggled buttons
+    // ['blockquote'],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"] // remove formatting button
+  ];
+    
+
+  quill = new Quill("#snow-container", {
+    placeholder: "Enter your abstract...",
+    modules: {
+      toolbar: toolbarOptions
+    },
+    theme: "snow"
+  });
+    
+{% if page_text %}
+    var text = $("#reportAbstract").val()
+
+    var oldDelta = {"ops":[{"attributes":{"color":"#000000"},"insert": text }]};
+    quill.setContents(oldDelta);
+
+    });
+{% else %}
+    var oldDelta = {"ops":[{"attributes":{"color":"#000000"},"insert":"Nothing Entered Yet" }]};
+    quill.setContents(oldDelta);
+    });
+{% endif %}
+    
+
+
+$("#submitText").on('click', function(){
+    var text = quill.getText()
+    
+    $form = $("<form id='abstractForm' method='POST'></form>");
+    $form.append("<input name='page_text' type='hidden' value='" + text + "'>");
+    
+    $(document.body).append($form);
+    $form.submit();
+    
+});
+</script>
+
     
     
 

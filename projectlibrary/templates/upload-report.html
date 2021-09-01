@@ -11,33 +11,28 @@
     <form action="" method="POST" enctype="multipart/form-data">
         <label for="fname">Report Title</label>
         {% if report %}
-            <input type="text" id="title" name="title" value="{{report.title}}" readonly>
+            <input type="text" id="title" name="title" value="{{report.title}}">
         {% else %}
             <input type="text" id="title" name="title" placeholder="Report Title">
         {% endif %}
 
         <label for="lname">Group Id</label>
         <input type="text" id="groupid" name="groupid" value="{{student.group_id}}" readonly>
-
+        
+        {% if report %}
         <label for="lname">Report</label><br>
-        <input type="file" id="file" name="file" placeholder="Upload Report"><br>
-
-        <label>Image</label><br>
-        <input type="file" name="image" placeholder="Image" accept="image/*"><br>
+        <input type="file" id="file" name="file" placeholder="Upload Report" accept="application/pdf"><br>
+        {% endif %}
 
         <label for="college">College </label>
         <input type="text" id="college" name="college" value={{student.college}} readonly>
         
+        {% if report %}
         <label for="chapter">Chapter </label>
         <select id="chapter" name="chapter">
-            <option value=""></option>
-            <option value="introduction">Introduction</option>
-            <option value="literature">Literature Review</option>
-            <option value="methodology">Methodology</option>
-            <option value="testing">Testing and Evaluation</option>
-            <option value="conclusion">Conclusion and Recommendations</option>
             <option value="fullreport">Full Report</option>
         </select>
+        {% endif %}
 
         <label for="topic">Topics </label>
         {% if report %}

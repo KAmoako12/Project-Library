@@ -2,7 +2,27 @@
 
 {% block css_files1 %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <style>
+    .chapters {
+        overflow: scroll;
+    }
+
+    .btn {
+        margin-top: 0;
+        width: auto;
+        display: flex;
+    }
+
+    .textarea {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+    
     .chapters {
         min-width: 12rem;
     padding: 0 !important;
@@ -11,6 +31,7 @@
     display: flex;
     align-items: center;
     }
+    
     .chapters button{
     width: 100%;
     padding: 0 !important;
@@ -38,13 +59,14 @@
     
     .commentarea {
         margin: 2px; 
-        width: 892px; 
+        width: 99%; 
         height: 88px;
     }
     main{
     display: grid !important;
     grid-template-columns: 1fr 3fr 1fr;
-        }
+    }
+    
     .publish{
         display: flex;
     flex-direction: column;
@@ -62,6 +84,33 @@
     color: white;
     margin-top: 1.5rem;
   }
+    
+    
+    .standalone-container {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+/*
+#snow-container {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+*/
+    .comment{
+        overflow: scroll;
+    }
+
+    .coavatar {
+        display: inline-flex;
+        height: 35px;
+        width: 35px;
+        margin: 5px;
+    }
+
 </style>
 {% endblock css_files1 %}
 
@@ -71,39 +120,41 @@
 <main>
     <div class="chapters">
         <ul>
+            {% if report %}
             <button class="btn">
-            <li><a href="{{url_for('lecturers.abstract', group_id=report.group_id)}}">ABSTRACT</a></li>
+                <li><a href="{{url_for('lecturers.abstract', group_id=report.group_id)}}">ABSTRACT</a></li>
             </button>
-            {% if report and report.introduction != None %}
+            {% endif %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_intro', group_id=report.group_id)}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.literature_review != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_literature', group_id=report.group_id)}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.methodology != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_methodology', group_id=report.group_id)}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.testing_and_evaluation != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_testing', group_id=report.group_id)}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.conclusion != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_conclusion', group_id=report.group_id)}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.full_report != None %}
             <button class="btn">
                 <li><a href="{{url_for('lecturers.report_full', group_id=report.group_id)}}">FULL REPORT</a></li>
@@ -111,6 +162,7 @@
             {% endif %}
         </ul>
     </div>
+    
     <div class="pdf-container">
         <div class="pdf-container">
            <object type="application/pdf" data="{{intro}}" width="800" height="450">
@@ -139,26 +191,47 @@
                 {% endif %}
             {% endfor %}
          </div>
-        <div class="comment-container">
-            {% if comments %}
-            {% for comment in comments %}
-            <ul class="comment-list">
-                <li id="comment-62201" class="comment even thread-even depth-1">
-                    <article id="div-comment-62201" class="comment-body">
-                        <footer class="comment-meta">
-                            <div class="comment-author vcard">
-                                <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
+         
+         
+        <div class="comment">
+        {% if comments %}
+        {% for comment in comments %}
+        <ul class="comment-list">
+            <li id="comment-62201" class="comment even thread-even depth-1">
+                <article id="div-comment-62201" class="comment-body">
+                    <footer class="comment-meta">
+                        <div class="comment-author vcard">
+                            <b class="fn"><span><img class="coavatar" src="{{url_for('static', filename='assets/avatar.png')}}" alt="avatar"></span>{{lecturer.name}}</b> <span class="says">says: </span> {{comment.comment}}
                             </div>
                             <div class="comment-metadata">
-                                <a href="#"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
-                            </div>
-                        </footer>
-                        <div class="comment-content">
-                            <p>{{comment.comment}}</p>
+                            <a href="#"><time
+                                    datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d,
+                                    %H:%M")}}</time></a>
+                                
+                            <button id="deleteAnchor" class="delete" style="color: red;" onclick="document.getElementById('delete-{{comment.id}}').style.display='block'">
+                                <span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </span>
+                            </button>
                         </div>
+                    </footer>
                     </article>
                 </li>
             </ul>
+            
+                <div id="delete-{{comment.id}}" class="w3-modal" style="display: none;">
+                <div class="w3-modal-content w3-animate-top w3-card-4">
+                    <header class="w3-container w3-teal">
+                        <span onclick="document.getElementById('delete-{{comment.id}}').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Confirm Delete</h2>
+                    </header>
+                    <div>
+                        <a class="button" href="#" style="background-color: #f44336;">Yes</a>
+                        <button onclick="document.getElementById('delete-{{comment.id}}').style.display='none'" class="button" style="background-color: #4CAF50;">No</button>
+                    </div>
+                </div>
+            </div>
+            
             {% endfor %}
             {% else %}
             <p>No Comments Yet</p>

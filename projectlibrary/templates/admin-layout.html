@@ -127,21 +127,21 @@
             <div>
                 <ul class="nav-items">
                     <li class="nav-link">
-                        <a href="{{url_for('admin.dashboard')}}"><span>Students</span></a>
+                        <a href="#"><span>Students</span></a>
                         <ul>
                             <li><a href="{{url_for('admin.create_student')}}"> Add New Student </a></li>
                             <li><a href="{{url_for('admin.dashboard')}}"> View Students </a></li>
                         </ul>
                     </li>
                     <li class="nav-link">
-                        <a href="{{}}"><span>Lecturers</span></a>
+                        <a href="#"><span>Lecturers</span></a>
                         <ul>
                             <li><a href="{{url_for('admin.create_lecturer')}}"> Add New Lecturer </a></li>
                             <li><a href="{{url_for('admin.lecturers')}}"> View Lecturers </a></li>
                         </ul>
                     </li>
                     <li class="nav-link">
-                        <a href="{{url_for('admin.category_list')}}"><span>Categories</span></a>
+                        <a href="#"><span>Categories</span></a>
                         <ul>
                             <li><a href="#">Add Category</a></li>
                             <li><a href="#">View Category</a></li>
@@ -216,10 +216,13 @@
     <script>
     $('#searchBtn').on('click', function(){
         var queryValue = $("#query").val();
-        var url = "/admin/search-results/"+ queryValue;
-        
-        console.log(url);
-        window.location.replace(url);
+        if(queryValue ===""){
+            window.alert("Enter a query!");
+        } else {
+             var url = "/admin/search-results/"+ queryValue;
+             window.location.replace(url);
+        }
+
     });
 
 </script>

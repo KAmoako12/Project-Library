@@ -22,7 +22,6 @@
         width: 837px;
         overflow: scroll;
     }
-<<<<<<< HEAD
     
     .chapters {
         min-width: 12rem;
@@ -32,6 +31,7 @@
     display: flex;
     align-items: center;
     }
+    
     .chapters button{
     width: 100%;
     padding: 0 !important;
@@ -65,7 +65,8 @@
     main{
     display: grid !important;
     grid-template-columns: 1fr 3fr 1fr;
-        }
+    }
+    
     .publish{
         display: flex;
     flex-direction: column;
@@ -86,12 +87,19 @@
     
     
     .standalone-container {
-  margin: 50px auto;
-  max-width: 720px;
-}
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+/*
 #snow-container {
-  height: 150px;
-}
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+*/
     .comment{
         overflow: scroll;
     }
@@ -112,34 +120,36 @@
 <main>
     <div class="chapters">
         <ul>
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.dashboard')}}">ABSTRACT</a></li>
             </button>
-            {% if report and report.introduction != None %}
+            {% endif %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
 
-            {% if report and report.literature_review != None %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_literature')}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
 
-            {% if report and report.methodology != None %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_methodology')}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
 
-            {% if report and report.testing_and_evaluation != None %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_testing')}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
 
-            {% if report and report.conclusion != None %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_conclusion')}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
@@ -153,16 +163,16 @@
         </ul>
     </div>
     <div class="pdf-container">
+        <center>{{page_title}}</center><br>
         <div class="pdf-container">
-            <form action='' method='POST'>
-                {% if abstract_text == None %}
-                <textarea name="abstract" class="textarea" rows="4" cols="80"
-                    placeholder="Insert Abstract Here..."></textarea>
-                {% else %}
-                <textarea name="abstract" class="textarea" rows='10' cols='10'>{{abstract_text}}</textarea>
-                {% endif %}
-                <button type="submit" style="background-color:#00b300; color: white;">Save</button>
-            </form>
+            {% if report %}
+            <div class="standalone-container">
+                <div id="snow-container"></div>
+            </div>
+            <button id="submitText" style="background-color:#00b300;">Save</button> <input id="reportAbstract" value="{{page_text}}" type="hidden">
+            {% else %}
+            <center><p>Kindly Upload Report Details First!</p></center>
+            {% endif %}
         </div>
     </div>
     <div class="comment">
@@ -173,19 +183,12 @@
                 <article id="div-comment-62201" class="comment-body">
                     <footer class="comment-meta">
                         <div class="comment-author vcard">
-                            <b class="fn"><span><img class="coavatar"
-                                        src="{{url_for('static', filename='assets/avatar.png')}}"
-                                        alt="avatar"></span>{{lecturer.name}}</b> <span class="says">says: </span>
-                        </div>
-              <div class="comment-metadata">
-                            <a href="https://www.inmotionhosting.com/support/website/create-html-form/#comment-62201"><time
+                            <b class="fn"><span><img class="coavatar" src="{{url_for('static', filename='assets/avatar.png')}}" alt="avatar"></span>{{lecturer.name}}</b> <span class="says">says: </span> {{comment.comment}}
+                            </div>
+                            <div class="comment-metadata">
+                            <a href="#"><time
                                     datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d,
                                     %H:%M")}}</time></a>
-                            <a href="" class="delete" style="color: red;">
-                                <span>
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </span>
-                            </a>
                         </div>
                     </footer>
                     </article>
@@ -205,6 +208,7 @@
     
     
 var quill;
+    
 var metaData = [];
 $(document).ready(function() {
   var toolbarOptions = [
@@ -225,64 +229,41 @@ $(document).ready(function() {
 
     ["clean"] // remove formatting button
   ];
+    
+
   quill = new Quill("#snow-container", {
-    placeholder: "Compose an epic...",
+    placeholder: "Enter your abstract...",
     modules: {
       toolbar: toolbarOptions
     },
     theme: "snow"
   });
-var oldDelta = {"ops":[{"attributes":{"color":"#000000"},"insert":"This is sample text."}]};
-quill.setContents(oldDelta);
+    
+{% if page_text %}
+    var text = $("#reportAbstract").val()
+
+    var oldDelta = {"ops":[{"attributes":{"color":"#000000"},"insert": text }]};
+    quill.setContents(oldDelta);
+
+    });
+{% else %}
+    var oldDelta = {"ops":[{"attributes":{"color":"#000000"},"insert":"Kindly Enter Some Text Here" }]};
+    quill.setContents(oldDelta);
+    });
+{% endif %}
+    
+
+
+$("#submitText").on('click', function(){
+    var text = quill.getText()
+    
+    $form = $("<form id='abstractForm' method='POST'></form>");
+    $form.append("<input name='page_text' type='hidden' value='" + text + "'>");
+    
+    $(document.body).append($form);
+    $form.submit();
+    
 });
-
-$(document).on("click", "#comment-button", function() {
-  var prompt = window.prompt("Please enter Comment", "");
-  var txt;
-  if (prompt == null || prompt == "") {
-    txt = "User cancelled the prompt.";
-  } else {
-    var range = quill.getSelection();
-    if (range) {
-      if (range.length == 0) {
-        alert("Please select text", range.index);
-      } else {
-        var text = quill.getText(range.index, range.length);
-        console.log("User has highlighted: ", text);
-        metaData.push({ range: range, comment: prompt });
-        quill.formatText(range.index, range.length, {
-          background: "#fff72b"
-        });
-        drawComments(metaData);
-      }
-    } else {
-      alert("User cursor is not in editor");
-    }
-  }
-});
-
-function drawComments(metaData) {
-  var $commentContainer = $("#comments-container");
-  var content = "";
-  $.each(metaData, function(index, value) {
-    content +=
-      "<a class='comment-link' href='#' data-index='" +
-      index +
-      "'><li class='list-group-item'>" +
-      value.comment +
-      "</li></a>";
-  });
-  $commentContainer.html(content);
-}
-
-$(document).on('click','.comment-link',function () {
-            var index = $(this).data('index');
-            console.log("comment link called",index);
-            var data = metaData[index];
-            quill.setSelection(data.range.index, data.range.length);
-        });
-
-
 </script>
 
 <!---------------x------------- Main Site Section ---------------x-------------->

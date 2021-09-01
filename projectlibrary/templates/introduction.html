@@ -2,6 +2,8 @@
 
 {% block css_files1 %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <style>
     .chapters {
@@ -13,10 +15,10 @@
         width: auto;
         display: flex;
     }
-    
+
     .textarea {
-        margin: 0px; 
-        height: 479px; 
+        margin: 0px;
+        height: 479px;
         width: 837px;
         overflow: scroll;
     }
@@ -29,6 +31,7 @@
     display: flex;
     align-items: center;
     }
+    
     .chapters button{
     width: 100%;
     padding: 0 !important;
@@ -62,7 +65,8 @@
     main{
     display: grid !important;
     grid-template-columns: 1fr 3fr 1fr;
-        }
+    }
+    
     .publish{
         display: flex;
     flex-direction: column;
@@ -80,6 +84,33 @@
     color: white;
     margin-top: 1.5rem;
   }
+    
+    
+    .standalone-container {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+/*
+#snow-container {
+        margin: 0px;
+        height: 479px;
+        width: 837px;
+        overflow: scroll;
+    }
+*/
+    .comment{
+        overflow: scroll;
+    }
+
+    .coavatar {
+        display: inline-flex;
+        height: 35px;
+        width: 35px;
+        margin: 5px;
+    }
+
 </style>
 {% endblock css_files1 %}
 
@@ -89,39 +120,41 @@
 <main>
     <div class="chapters">
         <ul>
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.dashboard')}}">ABSTRACT</a></li>
             </button>
-            {% if report and report.introduction != None %}
+            {% endif %}
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_intro')}}">INTRODUCTION</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.literature_review != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_literature')}}">LITERATURE REVIEW</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.methodology != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_methodology')}}">METHODOLOGY</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.testing_and_evaluation != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_testing')}}">TESTING AND EVALUATION</a></li>
             </button>
             {% endif %}
-            
-            {% if report and report.conclusion != None %}
+
+            {% if report %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_conclusion')}}">CONCLUSION AND RECOMMENDATIONS</a></li>
             </button>
             {% endif %}
-            
+
             {% if report and report.full_report != None %}
             <button class="btn">
                 <li><a href="{{url_for('students.report_full')}}">FULL REPORT</a></li>
@@ -144,23 +177,21 @@
         -->
     </div>
      <div class="comment">
-       <div class="comment-container">
-            {% if comments %}
-            {% for comment in comments %}
-            <ul class="comment-list">
-                <li id="comment-62201" class="comment even thread-even depth-1">
-                    <article id="div-comment-62201" class="comment-body">
-                        <footer class="comment-meta">
-                            <div class="comment-author vcard">
-                                <b class="fn">{{lecturer.name}}</b> <span class="says">says:</span>
+        {% if comments %}
+        {% for comment in comments %}
+        <ul class="comment-list">
+            <li id="comment-62201" class="comment even thread-even depth-1">
+                <article id="div-comment-62201" class="comment-body">
+                    <footer class="comment-meta">
+                        <div class="comment-author vcard">
+                            <b class="fn"><span><img class="coavatar" src="{{url_for('static', filename='assets/avatar.png')}}" alt="avatar"></span>{{lecturer.name}}</b> <span class="says">says: </span> {{comment.comment}}
                             </div>
                             <div class="comment-metadata">
-                                <a href="#"><time datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d, %H:%M")}}</time></a>
-                            </div>
-                        </footer>
-                        <div class="comment-content">
-                            <p>{{comment.comment}}</p>
+                            <a href="#"><time
+                                    datetime="2021-04-15T06:01:29-04:00">{{comment.created_at.strftime("%Y-%B-%d,
+                                    %H:%M")}}</time></a>
                         </div>
+                    </footer>
                     </article>
                 </li>
             </ul>
@@ -169,7 +200,6 @@
             <p>No Comments Yet</p>
             {% endif %}
         </div>
-    </div>
 </main>
 
 <!---------------x------------- Main Site Section ---------------x-------------->

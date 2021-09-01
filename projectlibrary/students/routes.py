@@ -11,19 +11,20 @@ students = Blueprint('students', __name__)
 @students.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    page_title = "Abstract"
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
     
-    abstract_text = None
+    page_text = None
     
     comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
     if report:
-        abstract_text = report.abstract
+        page_text = report.abstract
     
     if request.method == 'POST':
-        abstract = request.form['abstract']
+        abstract = request.form['page_text']
         if abstract.isspace() or abstract=='':
             flash('Kindly Enter an abstract', 'warning')
         else:
@@ -36,76 +37,164 @@ def dashboard():
             
         return redirect(url_for('students.dashboard'))
     
-    return render_template('dashboard.html', student=student, report=report, abstract_text=abstract_text, comments=comments, lecturer=lecturer)
+    return render_template('dashboard.html', page_title=page_title, student=student, report=report, comments=comments, lecturer=lecturer, page_text=page_text)
 
 
 @students.route('/introduction', methods=['GET', 'POST'])
 @login_required
 def report_intro():
+    page_title = "Introduction"
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    
+    page_text = None
     
     comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
-    intro_url = url_for('static', filename='pdfs/' + report.introduction)
+    if report:
+        page_text = report.introduction
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
+    if request.method == 'POST':
+        text = request.form['page_text']
+        if text.isspace() or text=='':
+            flash('Kindly enter some text!', 'warning')
+        else:
+            if report:
+                report.introduction = text
+                flash('Introduction Updated', 'success')
+                db.session.commit()
+            else:
+                flash('You need to upload report details first!', 'warning')
+            
+        return redirect(url_for('students.report_intro'))
+    
+    return render_template('dashboard.html', page_title=page_title, student=student, report=report, comments=comments, lecturer=lecturer, page_text=page_text)
 
 
 @students.route('/literature-review', methods=['GET', 'POST'])
 @login_required
 def report_literature():
+    page_title = "Literature Review"
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    page_text = None
+    
     comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
-    intro_url = url_for('static', filename='pdfs/' + report.literature_review)
+    if report:
+        page_text = report.literature_review
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
+    if request.method == 'POST':
+        text = request.form['page_text']
+        if text.isspace() or text=='':
+            flash('Kindly enter some text!', 'warning')
+        else:
+            if report:
+                report.literature_review = text
+                flash('Literature Review Updated', 'success')
+                db.session.commit()
+            else:
+                flash('You need to upload report details first!', 'warning')
+            
+        return redirect(url_for('students.report_literature'))
+    
+    return render_template('dashboard.html', page_title=page_title, student=student, report=report, page_text=page_text, comments=comments, lecturer=lecturer)
 
 
 @students.route('/methodology', methods=['GET', 'POST'])
 @login_required
 def report_methodology():
+    page_title = "Methodology"
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    page_text = None
+    
     comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
+    if report:
+        page_text = report.methodology
     
-    intro_url = url_for('static', filename='pdfs/' + report.methodology)
+    if request.method == 'POST':
+        text = request.form['page_text']
+        if text.isspace() or text=='':
+            flash('Kindly enter some text!', 'warning')
+        else:
+            if report:
+                report.methodology = text
+                flash('Methodology Updated', 'success')
+                db.session.commit()
+            else:
+                flash('You need to upload report details first!', 'warning')
+            
+        return redirect(url_for('students.report_methodology'))
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
+    return render_template('dashboard.html', page_title=page_title, student=student, report=report, page_text=page_text, comments=comments, lecturer=lecturer)
 
 
 @students.route('/testing-and-evaluation', methods=['GET', 'POST'])
 @login_required
 def report_testing():
+    page_title = "Testing and Evaluation"
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    page_text = None
     
     comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
-    intro_url = url_for('static', filename='pdfs/' + report.testing_and_evaluation)
+    if report:
+        page_text = report.testing_and_evaluation
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url, comments=comments, lecturer=lecturer)
+    if request.method == 'POST':
+        text = request.form['page_text']
+        if text.isspace() or text=='':
+            flash('Kindly enter some text!', 'warning')
+        else:
+            if report:
+                report.testing_and_evaluation = text
+                flash('Testing and Evaluation Updated', 'success')
+                db.session.commit()
+            else:
+                flash('You need to upload report details first!', 'warning')
+            
+        return redirect(url_for('students.report_testing'))
+    
+    return render_template('dashboard.html',page_title=page_title, student=student, report=report, page_text=page_text, comments=comments, lecturer=lecturer)
 
 
 @students.route('/conclusion', methods=['GET', 'POST'])
 @login_required
 def report_conclusion():
+    page_title = "Conclusion"
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    
+    page_text = None
     
     comments = Comments.query.filter_by(group_id=student.group_id).order_by(Comments.created_at.desc()).all()
     lecturer = Lecturers.query.filter_by(staff_id=student.supervisor).first()
     
-    intro_url = url_for('static', filename='pdfs/' + report.conclusion)
+    if report:
+        page_text = report.conclusion
     
-    return render_template('introduction.html', student=student, report=report, intro=intro_url,comments=comments, lecturer=lecturer)
+    if request.method == 'POST':
+        text = request.form['page_text']
+        if text.isspace() or text=='':
+            flash('Kindly enter some text!', 'warning')
+        else:
+            if report:
+                report.conclusion = text
+                flash('Conclusion Updated', 'success')
+                db.session.commit()
+            else:
+                flash('You need to upload report details first!', 'warning')
+            
+        return redirect(url_for('students.report_conclusion'))
+    
+    return render_template('dashboard.html', student=student, page_title=page_title, report=report, page_text=page_text, comments=comments, lecturer=lecturer)
 
 
 @students.route('/full-report', methods=['GET', 'POST'])
@@ -132,11 +221,16 @@ def upload_report():
     if request.method =='POST':
         title = request.form['title']
         group_id = request.form['groupid']
-        file = request.files['file']
-        image = request.files['image']
         college = request.form['college']
-        chapter = request.form['chapter']
         topic = request.form['topic']
+        file =None
+        chapter = None
+        
+        
+        if report:
+            file = request.files['file']
+            chapter = request.form['chapter']
+            
         
         #if report exists, do this part
         if report:
@@ -147,9 +241,7 @@ def upload_report():
 #            report.chapter = chapter
             
             #if there's an image save it
-            if image:
-                picture_file = save_picture(image)
-                report.image = picture_file
+            report.image='default.jpg'
             
             
             # depending on the chapter, save as such
@@ -215,6 +307,9 @@ def upload_report():
                     pdf_file = save_pdf(file)
                     new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, image=picture_file,
                                         full_report=pdf_file, supervisor=student.supervisor)
+                    
+                else:
+                    new_report = Reports(topic=topic, title=title, group_id=group_id, college=college, supervisor=student.supervisor)
                     
             db.session.add(new_report)
             db.session.commit()

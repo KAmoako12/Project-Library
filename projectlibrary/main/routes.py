@@ -14,12 +14,13 @@ def inject_user():
     user = current_user
     student = None
     lecturer = None
+    categories = Categories.query.limit(6).all()
     if user.is_authenticated:
         student = Students.query.filter_by(id=user.id).first()
         lecturer = Lecturers.query.filter_by(id=user.id).first()
         
         
-    return dict(student=student, lecturer=lecturer)
+    return dict(student=student, lecturer=lecturer, categories=categories)
 
 
 @main.route("/", methods=['POST', 'GET'], defaults={'page':1})
@@ -124,7 +125,8 @@ def college_explore(college, page):
 def search(query, page):
     search_params = "%{}%".format(query)
     
-    reports = Reports.query.filter(Reports.title.ilike(search_params) | Reports.abstract.ilike(search_params)).paginate(page=page, per_page=5)
+    reports = Reports.query.filter(Reports.title.ilike(search_params) | Reports.abstract.ilike(search_params) | Reports.introduction.ilike(search_params) | Reports.literature.ilike(search_params) | Reports.methodology.ilike(search_params) | Reports.testing_and_evaluation.ilike(search_params) | Reports.conclusion.ilike(search_params)).paginate(page=page, per_page=5)
+    
     
     recents = Reports.query.filter_by(published=True).order_by(Reports.updated_at.desc()).limit(5).all()
     report_len = Reports
