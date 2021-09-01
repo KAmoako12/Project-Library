@@ -88,19 +88,29 @@
             <div>
                 <ul class="nav-items">
                     <li class="nav-link">
-                        <a href="{{url_for('admin.dashboard')}}">Users</a>
+                        <a href="{{url_for('admin.dashboard')}}"><span>Students</span></a>
+                        <ul>
+                            <li><a href="{{url_for('admin.create_student')}}">Add New Student</a></li>
+                            <li><a href="{{url_for('admin.dashboard')}}">View Students</a></li>
+                        </ul>
                     </li>
                     <li class="nav-link">
-                        <a href="{{url_for('admin.category_list')}}">Categories</a>
+                        <a href="{{}}"><span>Lecturers</span></a>
+                        <ul>
+                            <li><a href="{{url_for('admin.create_lecturer')}}">Add New Lecturer</a></li>
+                            <li><a href="{{url_for('admin.lecturers')}}">View Lecturers</a></li>
+                        </ul>
                     </li>
                     <li class="nav-link">
-                        <a href="#">Reports</a>
+                        <a href="{{url_for('admin.category_list')}}"><span>Categories</span></a>
+                        <ul>
+                            <li><a href="">Add Category</a></li>
+                            <li><a href="">View Category</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
             <div class="social text-gray">
-                <div class="avatar"><i class="fa fa-user"></i></div>
-                <p>Welcome KAmoako</p>
                 <a href="{{url_for('main.home')}}" class="logout">
                     <span class="material-icons" >
                         logout
