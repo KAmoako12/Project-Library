@@ -2,6 +2,7 @@
 
 {% block css_files1 %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 <style>
     .chapters {
@@ -80,6 +81,15 @@
     color: white;
     margin-top: 1.5rem;
   }
+    
+    
+    .standalone-container {
+  margin: 50px auto;
+  max-width: 720px;
+}
+#snow-container {
+  height: 150px;
+}
 </style>
 {% endblock css_files1 %}
 
@@ -131,6 +141,13 @@
     </div>
     <div class="pdf-container">
         <div class="pdf-container">
+                <div class="standalone-container">
+                    <div id="custom-toolbar" class="ql-toolbar ql-snow">
+                        <button type="button" id="comment-button" style="width: 60px;color:red">Comment</button>
+                    </div>
+                    <div id="snow-container"></div>
+                </div>
+<!--
         <form action='' method='POST'>
             {% if abstract_text == None %}
                 <textarea name="abstract" class="textarea" rows="4" cols="80" placeholder="Insert Abstract Here..."></textarea>
@@ -139,10 +156,18 @@
             {% endif %}
             <button type="submit" style="background-color: green;">Save</button>
         </form>
+-->
     </div>
     </div>
     <div class="comment">
        <div class="comment-container">
+           
+           <div class="col-md-3">
+                Comments
+                <ul class="list-group" id="comments-container">
+                </ul>
+            </div>
+<!--
             {% if comments %}
             {% for comment in comments %}
             <ul class="comment-list">
@@ -166,9 +191,97 @@
             {% else %}
             <p>No Comments Yet</p>
             {% endif %}
+-->
         </div>
     </div>
 </main>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+
+<script>
+    
+    
+var quill;
+var metaData = [];
+$(document).ready(function() {
+  var toolbarOptions = [
+    ["bold", "italic", "underline", "strike"],
+    ['image', 'code-block'],// toggled buttons
+    // ['blockquote'],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"] // remove formatting button
+  ];
+  quill = new Quill("#snow-container", {
+    placeholder: "Compose an epic...",
+    modules: {
+      toolbar: toolbarOptions
+    },
+    theme: "snow"
+  });
+var oldDelta = {"ops":[{"attributes":{"color":"#000000"},"insert":"This is sample text."}]};
+quill.setContents(oldDelta);
+});
+
+$(document).on("click", "#comment-button", function() {
+  var prompt = window.prompt("Please enter Comment", "");
+  var txt;
+  if (prompt == null || prompt == "") {
+    txt = "User cancelled the prompt.";
+  } else {
+    var range = quill.getSelection();
+    if (range) {
+      if (range.length == 0) {
+        alert("Please select text", range.index);
+      } else {
+        var text = quill.getText(range.index, range.length);
+        console.log("User has highlighted: ", text);
+        metaData.push({ range: range, comment: prompt });
+        quill.formatText(range.index, range.length, {
+          background: "#fff72b"
+        });
+        drawComments(metaData);
+      }
+    } else {
+      alert("User cursor is not in editor");
+    }
+  }
+});
+
+function drawComments(metaData) {
+  var $commentContainer = $("#comments-container");
+  var content = "";
+  $.each(metaData, function(index, value) {
+    content +=
+      "<a class='comment-link' href='#' data-index='" +
+      index +
+      "'><li class='list-group-item'>" +
+      value.comment +
+      "</li></a>";
+  });
+  $commentContainer.html(content);
+}
+
+$(document).on('click','.comment-link',function () {
+            var index = $(this).data('index');
+            console.log("comment link called",index);
+            var data = metaData[index];
+            quill.setSelection(data.range.index, data.range.length);
+        });
+
+
+</script>
 
 <!---------------x------------- Main Site Section ---------------x-------------->
 {% endblock content %}
