@@ -1,36 +1,95 @@
 {% extends "admin-layout.html" %}
+{% block custom_styles %}
+<style>
+    .button {
+        border: none;
+    padding: 8px 29px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    margin: 4px 2px;
+    border-radius: 26px;
+    }
+    .customers-container{
+       max-width: 70rem !important;
+    }
+    .menu-button{
+        margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    }
+</style>
+{% endblock custom_styles %}
 {% block content %}
 <!----------------------------- Main Site Section ------------------------------>
 
-<button>Add New Category</button>
+<button><a href="{{url_for('admin.add_category')}}">Add New Category</a></button>
 
 <div class="customers-container">
+    {% if categories.items | length != 0 %}
     <table id="customers">
         <thead>
             <th>ID</th>
             <th>Category Name</th>
-            <!--
-                <th>Name</th>
-                <th>Username</th>
-                <th>College</th>
-                <th>Email</th>
--->
             <th colspan="2">Action</th>
         </thead>
+        {% for category in categories.items %}
         <tr>
-            <td>1</td>
-            <td>9339217</td>
-            <!--
-                <td>Kwaku Manu</td>
-                <td>KManu</td>
-                <td>College of Engineering</td>
-                <td>kmanu@gmail.com</td>
--->
-            <td><a href="" class="edit">Edit</a></td>
-            <td><a href="" class="delete">Delete</a></td>
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td><a href="{{url_for('admin.edit_category', category_id=category.id)}}" class="edit button w3-button w3-black">Edit</a></td>
+            <td><button onclick="document.getElementById('delete-{{category.id}}').style.display='block'" class="w3-button w3-red">Delete</button></td>
         </tr>
-
+        
+        <div id="delete-{{category.id}}" class="w3-modal" style="display: none;">
+            <div class="w3-modal-content w3-animate-top w3-card-4">
+                <header class="w3-container w3-teal">
+                    <span onclick="document.getElementById('delete-{{category.id}}').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Confirm Delete</h2>
+                </header>
+                <div>
+                    <a class="button" href="{{url_for('admin.delete_category', category_id=category.id)}}" style="background-color: #f44336;">Yes</a>
+                    <button onclick="document.getElementById('delete-{{category.id}}').style.display='none'" class="button" style="background-color: #4CAF50;">No</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </table>
+    {% else %}
+        <center><p>No Categories Available!</p></center>
+    {% endif %}
+    
+    <br><br>
+    <div class="pagination flex-row">
+    {# if there is a previous page, give it the prev link else leave it  #}
+    {% if prev_url %}
+    <a href="{{prev_url}}"><i class="fas fa-chevron-left"></i></a>
+    {% else %}
+    <a href="#"><i class="fas fa-chevron-left"></i></a>
+    {% endif %}
+
+    {% for page_num in categories.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)%}
+    {% if page_num %}
+    {% if categories.page == page_num %}
+    <a href="{{url_for('admin.category_list', page=page_num)}}" class="pages active-page">{{page_num}}</a>
+    {% else %}
+    <a href="{{url_for('admin.category_list', page=page_num)}}" class="pages">{{page_num}}</a>
+    {% endif %}
+    {% else %}
+    <a href="#" class="pages">...</a>
+    {% endif %}
+    {% endfor %}
+
+    {% if next_url %}
+    <a href="{{next_url}}"><i class="fas fa-chevron-right"></i></a>
+    {% else %}
+    <a href="#"><i class="fas fa-chevron-right"></i></a>
+    {% endif %}
 </div>
+
+
 
 {% endblock content %}

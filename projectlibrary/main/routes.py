@@ -41,11 +41,11 @@ def home(page):
             
         
     if request.method == 'POST':
-        username = request.form['uname']
-        password = request.form['psw']
+        username = request.form['uname'].lower()
+        password = request.form['psw'].lower()
         
-        student = Students.query.filter_by(username=username).first()
-        lecturer = Lecturers.query.filter_by(username=username).first()
+        student = Students.query.filter_by(username=username.capitalize()).first()
+        lecturer = Lecturers.query.filter_by(username=username.capitalize()).first()
         #update to hashpassword and lecturer login
         if student:
             if bcrypt.check_password_hash(student.password, password):

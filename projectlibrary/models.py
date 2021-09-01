@@ -43,7 +43,7 @@ class Lecturers(User):
     
 class Reports(db.Model):
     id = db.Column(db.Integer,  primary_key=True)
-    topic = db.Column(db.String(255), nullable=False)
+    topic = db.Column(db.String(255), db.ForeignKey('categories.name'), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     group_id = db.Column(db.String(255), db.ForeignKey('students.group_id'), nullable=False)
     supervisor = db.Column(db.String(255), db.ForeignKey('lecturers.staff_id'), nullable=False)
@@ -70,7 +70,8 @@ class Comments(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     
-
-
     
+class Categories(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False, unique=True)
     

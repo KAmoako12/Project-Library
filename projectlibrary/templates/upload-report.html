@@ -44,13 +44,9 @@
             <input type="text" id="topic" name="topic" value="{{report.topic}}" readonly>
         {% else %}
         <select id="topic" name="topic">
-            <option value=""></option>
-            <option value="Software">Software</option>
-            <option value="Health">Health</option>
-            <option value="Science">Science</option>
-            <option value="Database">Database</option>
-            <option value="Music">Music</option>
-            <option value="Mathematics">Mathematics</option>
+            {% for category in categories %}
+            <option value="{{category.name}}">{{category.name}}</option>
+            {% endfor %}
         </select>
         {% endif %}
 

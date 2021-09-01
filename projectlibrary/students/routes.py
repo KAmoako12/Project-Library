@@ -127,6 +127,7 @@ def report_full():
 def upload_report():
     student = current_user
     report = Reports.query.filter_by(group_id=student.group_id).first()
+    categories = Categories.query.all()
     
     if request.method =='POST':
         title = request.form['title']
@@ -221,4 +222,4 @@ def upload_report():
             flash('New Report Added', 'success')
             return redirect(url_for('students.dashboard'))
         
-    return render_template('upload-report.html', title='Upload Report', student=student, report=report)
+    return render_template('upload-report.html', title='Upload Report', student=student, report=report, categories=categories)

@@ -26,7 +26,8 @@
         </select>
         
         <label for="department">Department</label>
-        <input type="text" id="department" name="department" placeholder="Department">
+        <select id="department" name="department" placeholder="Department">
+        </select>
 
         <label for="college">College </label>
         <select id="college" name="college">
@@ -42,4 +43,40 @@
     </form>
 </div>
 <!----------------------------- // Main Site Section ------------------------------>
+
+<script>
+    
+    var url = "https://lecture-monitor.herokuapp.com/api/departments";
+    var jsonList;
+    fetch(url).then(function (response) {
+            return response.json();
+        }).then(function(body){
+       jsonList = body.data;
+        
+        function loadlist(selobj, url) {
+        var categories = [];
+        $(selobj).empty();
+        $(selobj).append('<option value="0">--Select Department--</option>')
+        $(selobj).append(
+            $.map(jsonList.departments, function(el, i) {
+                if (el.name.endsWith('4')){
+                    if ($.inArray(el.name, categories) == -1) {
+                    categories.push(el.name);
+                    return $('<option>').val(el.name.slice(0, -1)).text(el.name.slice(0, -1));
+                    console.log($(el.name));
+                    }
+                }
+                
+                
+                
+            }));
+    }
+
+
+    loadlist($('#department').get(0), jsonList);
+
+
+    });
+    
+</script>
 {% endblock content %}

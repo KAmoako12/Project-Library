@@ -1,0 +1,16 @@
+{% extends "admin-layout.html" %}
+{% block content %}
+<!----------------------------- Main Site Section ------------------------------>
+
+<div class="form" style="margin-top: 2rem;">
+    <form action="" method="POST">
+        <label for="name">Category Name</label>
+        <input type="text" minlength="3" id="name" name="name" placeholder="Category Name" required>
+        
+        
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<!----------------------------- // Main Site Section ------------------------------>
+
+{% endblock content %}

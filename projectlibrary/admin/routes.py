@@ -56,16 +56,109 @@ def lecturers(page):
 
 
 
-@admin.route("/categories", methods=['POST', 'GET'])
-def category_list():
+@admin.route("/categories", methods=['POST', 'GET'], defaults={'page':1})
+@admin.route("/categories/<int:page>", methods=['POST', 'GET'])
+def category_list(page):
     admin_username = 'admin'
     admin_password = 'admin'
 
     if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
-        return render_template('admin-categories.html', title="Super Admin Dashboard")
+        categories = Categories.query.paginate(page=page, per_page=5)
+        
+        next_url = url_for('admin.category_list', page=categories.next_num) \
+            if categories.has_next else None
+            
+        prev_url = url_for('admin.category_list', page=categories.prev_num) \
+            if categories.has_prev else None
+            
+        return render_template('admin-categories.html', title="Super Admin Dashboard", categories=categories, prev_url=prev_url, next_url=next_url)
 
     logging.warn(request.__dict__)
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+
+
+@admin.route("/add-new/category", methods=['POST', 'GET'])
+def add_category():
+    admin_username = 'admin'
+    admin_password = 'admin'
+
+    if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
+        if request.method == "POST":
+            category_name = request.form['name'].lower()
+            
+            category = Categories.query.filter_by(name=category_name.capitalize()).first()
+            
+            if category:
+                flash('That Category Name is taken!')
+                return redirect(url_for('admin.add_category'))
+            
+            new_category = Categories(name=category_name.capitalize())
+            db.session.add(new_category)
+            db.session.commit()
+            
+            flash('New Category Added!')
+            return redirect(url_for('admin.category_list'))
+        return render_template('add-category.html', title="Super Admin Dashboard")
+
+    logging.warn(request.__dict__)
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+
+
+
+@admin.route("/edit-category/<category_id>", methods=['POST', 'GET'])
+def edit_category(category_id):
+    admin_username = 'admin'
+    admin_password = 'admin'
+
+    if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
+        category = Categories.filter_by(id=category_id).first()
+        
+        if request.method == "POST":
+            category_name = request.form['name'].lower()
+            category_id = request.form['id']
+            
+            #search for the category name, if the id isn't the same as this, refuse itttt
+            
+            exisiting = Categories.query.filter_by(name=category_name.capitalize()).first()
+            if exisiting.id != category_id:
+                flash('This Category Name already exists!')
+                return redirect(url_for('admin.edit_category', category_id=category_id))
+            
+            category.name = category_name.capitalize()
+            db.session.commit()
+            
+            flash('Category Updated')
+            return redirect(url_for('admin.category_list'))
+        
+        return render_template('edit-category.html', title="Super Admin Dashboard", category=category)
+
+    logging.warn(request.__dict__)
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+
+
+
+@admin.route("/delete-category/<category_id>", methods=['POST', 'GET'])
+def delete_category(category_id):
+    admin_username = 'admin'
+    admin_password = 'admin'
+
+    if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
+        cateogry = Categories.query.filter_by(id=category_id).first()
+        
+        if category:
+            db.session.delete(category)
+            db.session.commit()
+            flash('Category Deleted')
+            
+        else:
+            flash('That Category does not exist!')
+            
+        return redirect(url_for('admin.category_list'))
+        
+
+    logging.warn(request.__dict__)
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+
 
 
 
@@ -77,7 +170,7 @@ def create_student():
     if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
         if request.method == 'POST':
             name = request.form['name']
-            username = request.form['username']
+            username = request.form['username'].lower()
             email = request.form['email']
             index_number = request.form['indexnumber']
             group_id = request.form['groupid']
@@ -88,8 +181,8 @@ def create_student():
             staff_id = request.form['staffid']
             
             #validation
-            student_check = Students.query.filter_by(username=username).first()
-            lecturer_check = Lecturers.query.filter_by(username=username).first()
+            student_check = Students.query.filter_by(username=username.capitalize()).first()
+            lecturer_check = Lecturers.query.filter_by(username=username.capitalize()).first()
             
             if student_check or lecturer_check:
                 flash('This Username is not available!', 'warning')
@@ -132,10 +225,10 @@ def create_student():
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             if group_leader == "1":
-                new_student = Students(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password, index_number=index_number,
+                new_student = Students(id=str(uuid.uuid4())[:8], username=username.capitalize(), name=name, email=email, password=password, index_number=index_number,
                                   program=program, group_id=group_id, college=college,supervisor=staff_id, group_leader=True)
             else:
-                new_student = Students(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password,supervisor=staff_id, index_number=index_number,
+                new_student = Students(id=str(uuid.uuid4())[:8], username=username.capitalize(), name=name, email=email, password=password,supervisor=staff_id, index_number=index_number,
                                   program=program, group_id=group_id, college=college)
             
             db.session.add(new_student)
@@ -162,7 +255,7 @@ def edit_student(student_id):
     if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
         if request.method == 'POST':
             name = request.form['name']
-            username = request.form['username']
+            username = request.form['username'].lowercase()
             email = request.form['email']
             index_number = request.form['indexnumber']
             group_id = request.form['groupid']
@@ -177,7 +270,7 @@ def edit_student(student_id):
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             student.name = name
-            student.username = username
+            student.username = username.capitalize()
             student.email = email
             student.index_number = index_number
             student.group_id = group_id
@@ -212,7 +305,7 @@ def create_lecturer():
     if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
         if request.method == 'POST':
             name = request.form['name']
-            username = request.form['username']
+            username = request.form['username'].lower()
             email = request.form['email']
             staff_id = request.form['staffid']
             raw_password = request.form['password']
@@ -221,8 +314,8 @@ def create_lecturer():
             department = request.form['department']
             
             #validation
-            student_check = Students.query.filter_by(username=username).first()
-            lecturer_check = Lecturers.query.filter_by(username=username).first()
+            student_check = Students.query.filter_by(username=username.capitalize()).first()
+            lecturer_check = Lecturers.query.filter_by(username=username.capitalize()).first()
             
             if student_check or lecturer_check:
                 flash('This Username is not available!', 'warning')
@@ -243,10 +336,10 @@ def create_lecturer():
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             if hod == "1":
-                new_lecturer = Lecturers(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password, staff_id=staff_id,
+                new_lecturer = Lecturers(id=str(uuid.uuid4())[:8], username=username.capitalize(), name=name, email=email, password=password, staff_id=staff_id,
                                   department=department,college=college, hod=True)
             else:
-                new_lecturer = Lecturers(id=str(uuid.uuid4())[:8], username=username, name=name, email=email, password=password, staff_id=staff_id,
+                new_lecturer = Lecturers(id=str(uuid.uuid4())[:8], username=username.capitalize(), name=name, email=email, password=password, staff_id=staff_id,
                                   department=department, college=college)
             
             db.session.add(new_lecturer)
@@ -272,7 +365,7 @@ def edit_lecturer(lecturer_id):
     if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
         if request.method == 'POST':
             name = request.form['name']
-            username = request.form['username']
+            username = request.form['username'].lower()
             email = request.form['email']
             staff_id = request.form['staffid']
             raw_password = request.form['password']
@@ -284,7 +377,7 @@ def edit_lecturer(lecturer_id):
             password = bcrypt.generate_password_hash(raw_password).decode('utf-8')
             
             lecturer.name = name
-            lecturer.username = username
+            lecturer.username = username.capitalize()
             lecturer.email = email
             lecturer.staff_id = staff_id
             lecturer.password = password

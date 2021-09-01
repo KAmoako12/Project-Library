@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy 
 from flask_bcrypt import Bcrypt 
 from flask_login import LoginManager 
+from flask_mail import Mail
 import os
 
 app = Flask(__name__)
@@ -17,6 +18,15 @@ login_manager.login_view = 'main.home'
 login_manager.login_message_category = 'info'
 
 
+
+#mail extensions
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'      # using google's mail service
+app.config['MAIL_PORT'] = 465 # well this is the mail port
+app.config['MAIL_USE_TL'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'projectlibraryyy@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Library2021'
+mail = Mail(app) # instance of the mail app
 
 
 from projectlibrary import routes
