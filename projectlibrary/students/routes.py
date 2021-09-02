@@ -271,10 +271,8 @@ def upload_report():
         #else, update it based on what's there
         else:
              #if there's an image save it
-            if image:
-                picture_file = save_picture(image)
-            else:
-                picture_file = 'default.jpg'
+           
+            picture_file = 'default.jpg'
             
             
             # depending on the chapter, save as such

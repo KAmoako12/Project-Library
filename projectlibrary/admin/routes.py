@@ -255,7 +255,7 @@ def edit_student(student_id):
     if request.authorization and (request.authorization.username == admin_username and request.authorization.password == admin_password):
         if request.method == 'POST':
             name = request.form['name']
-            username = request.form['username'].lowercase()
+            username = request.form['username'].lower()
             email = request.form['email']
             index_number = request.form['indexnumber']
             group_id = request.form['groupid']
