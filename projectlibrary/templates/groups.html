@@ -57,7 +57,7 @@
         {% for group in groups %}
         <tr>
             <td>{{group}}</td>
-            {% set report_name = report.query.filter_by(group_id=group).first().topic %}
+            {% set report_name = report.query.filter_by(group_id=group).first().title %}
             {% if report_name %}
             <td>{{report_name}}</td>
             {% else %}
