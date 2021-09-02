@@ -205,7 +205,7 @@ def create_student():
             # search through students, if that group_id exists, check if that student's supervisor is the same
             validate_supervisor = Students.query.filter_by(group_id=group_id).first()
             
-            if validate_supervisor and validate_supervisor.staff_id != staff_id:
+            if validate_supervisor and validate_supervisor.supervisor != staff_id:
                 flash('That is not the assigned supervisor for this group!', 'warning')
                 return redirect(url_for('admin.create_student'))
             
