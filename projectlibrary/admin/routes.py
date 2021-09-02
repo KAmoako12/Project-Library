@@ -411,7 +411,10 @@ def search_results(query, page):
         users = Lecturers.query.filter(or_(Lecturers.username == query, Lecturers.email == query, Lecturers.name.ilike(search_params))).paginate(page=page, per_page=5)
     
         if len(users.items) == 0:
-            users = None
+            users = Categories.query.filter(Categories.name.ilike(search_params)).paginate(page=page, per_page=5)
+            
+            if len(users.items) == 0:
+                users = None
     
     if users:
         next_url = url_for('admin.search_results', query=query, page=users.next_num) \
