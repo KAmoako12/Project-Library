@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Project Library : Home Page</title>
 
     <!-- Font Awesome Icons -->
-    
+
     <link rel="stylesheet" href="{{url_for('static', filename='css/all.css')}}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -22,14 +21,14 @@
     <!-- ------------ AOS Library ------------------------- -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/aos.css')}}">
 
-    <!-- Custom Style   --> 
+    <!-- Custom Style   -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/Style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/pdfViewer.css')}}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     {% block custom_styles %}
     {% endblock custom_styles %}
-    
+
     <style>
         .customers-container {
             overflow: auto;
@@ -37,28 +36,28 @@
             margin: 2rem auto;
             height: 36rem;
         }
-        
+
         #customers {
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
             width: 100%;
             padding: 11rem;
         }
-        
+
         #customers td,
         #customers th {
             border: 1px solid #ddd;
             padding: 8px;
         }
-        
+
         #customers tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        
+
         #customers tr:hover {
             background-color: #ddd;
         }
-        
+
         #customers th {
             padding-top: 12px;
             padding-bottom: 12px;
@@ -66,45 +65,70 @@
             background-color: #04AA6D;
             color: white;
         }
-        
-       
+
+
         .w3-modal-content {
-        width: 400px !important;
+            width: 400px !important;
         }
 
         .w3-container p {
-        padding: 1rem !important;
+            padding: 1rem !important;
         }
-        
+
         .pagination {
-          justify-content: center;
-          color: var(--text-gray);
-          margin: 4rem 0;
+            justify-content: center;
+            color: var(--text-gray);
+            margin: 4rem 0;
         }
 
         .pagination a {
-          padding: 0.6rem 0.9rem;
-          border-radius: 2rem;
-          margin: 0 0.3rem;
-          font-family: var(--Lexend);
+            padding: 0.6rem 0.9rem;
+            border-radius: 2rem;
+            margin: 0 0.3rem;
+            font-family: var(--Lexend);
         }
 
         .pagination .pages {
-          background: var(--text-gray);
-          color: var(--white);
+            background: var(--text-gray);
+            color: var(--white);
         }
-        
+
         .active-page {
-        background: skyblue !important;
+            background: skyblue !important;
         }
-        
+
         .search {
-          position: relative;
-          display: flex;
-          font-family: "poppins";
-          justify-content: center;
-          padding: 0.5rem;
-          margin-top: 1rem;
+            position: relative;
+            display: flex;
+            font-family: "poppins";
+            justify-content: center;
+            padding: 0.5rem;
+            margin-top: 1rem;
+            width: fit-content;
+        }
+
+
+        .searchButton {
+            width: 3rem;
+            height: 2.5rem;
+            border: 1px solid #104f55;
+            background: #104f55;
+            text-align: center;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .searchTerm {
+            width: 30vw;
+            border: 3px solid #104f55;
+            border-right: none;
+            padding: 5px;
+            height: 2.5rem;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            font-size: 1rem
         }
     </style>
     <link rel="shortcut icon" type="image/jpg" href="https://apps.knust.edu.gh/img/logo.png">
@@ -117,7 +141,8 @@
     <nav class="nav">
         <div class="nav-menu flex-row">
             <div class="nav-brand">
-                <a href="index.html" class="text-gray"><img src="https://apps.knust.edu.gh/img/logo.png" alt="Knust logo"></a>
+                <a href="index.html" class="text-gray"><img src="https://apps.knust.edu.gh/img/logo.png"
+                        alt="Knust logo"></a>
             </div>
             <div class="toggle-collapse">
                 <div class="toggle-icons">
@@ -127,52 +152,43 @@
             <div>
                 <ul class="nav-items">
                     <li class="nav-link">
-                        <a href="#"><span>Students</span></a>
-                        <ul>
-                            <li><a href="{{url_for('admin.create_student')}}"> Add New Student </a></li>
-                            <li><a href="{{url_for('admin.dashboard')}}"> View Students </a></li>
-                        </ul>
+                        <a href="{{url_for('admin.dashboard')}}">Students</a>
                     </li>
                     <li class="nav-link">
-                        <a href="#"><span>Lecturers</span></a>
-                        <ul>
-                            <li><a href="{{url_for('admin.create_lecturer')}}"> Add New Lecturer </a></li>
-                            <li><a href="{{url_for('admin.lecturers')}}"> View Lecturers </a></li>
-                        </ul>
+                        <a href="{{url_for('admin.lecturers')}}">Lecturers</a>
                     </li>
                     <li class="nav-link">
-                        <a href="#"><span>Categories</span></a>
-                        <ul>
-                            <li><a href="#">Add Category</a></li>
-                            <li><a href="#">View Category</a></li>
-                        </ul>
+                        <a href="{{url_for('admin.category_list')}}">Categories</a>
                     </li>
                 </ul>
             </div>
             <div class="social text-gray">
                 <a href="{{url_for('main.home')}}" class="logout">
-                    <span class="material-icons" >
+                    <span class="material-icons">
                         logout
-                    </span> 
+                    </span>
                 </a>
             </div>
         </div>
     </nav>
-    
-    
-    
+
+
+
 
     <!-- ------------x---------------  Navigation --------------------------x------------------- -->
 
     <!----------------------------- Main Site Section ------------------------------>
-    
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+
     <div class="w3-container">
         <div id="flashModal" class="w3-modal">
             <div class="w3-modal-content w3-animate-top w3-card-4">
                 <header class="w3-container w3-teal">
-                    <span onclick="document.getElementById('flashModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <span onclick="document.getElementById('flashModal').style.display='none'"
+                        class="w3-button w3-display-topright">&times;</span>
                     <h2>Message</h2>
                 </header>
                 <div>
@@ -193,40 +209,40 @@
             </div>
         </div>
     </div>
-    
+
     <script>
-       {% with messages = get_flashed_messages(with_categories=true) %}
-       {% if messages %}
-            $(window).on('load', function(){
-                $('#flashModal').css('display', 'block');
-            });
-       {% endif %}
-       {% endwith %}
+        {% with messages = get_flashed_messages(with_categories = true) %}
+        {% if messages %}
+        $(window).on('load', function () {
+            $('#flashModal').css('display', 'block');
+        });
+        {% endif %}
+        {% endwith %}
     </script>
-    
-    <div class="searchDiv">
+
+    <div class="sidebar">
         <form id="search" class="search">
-        <input type="text" class="searchTerm" placeholder="Search" id="query" name="query">
-        <button type="button" id="searchBtn" class="searchButton">
-            <i class="fa fa-search"></i>
-        </button>
-    </form>
+            <input type="text" class="searchTerm" placeholder="Search" id="query" name="query">
+            <button type="button" id="searchBtn" class="searchButton">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
     </div>
-    
+
     <script>
-    $('#searchBtn').on('click', function(){
-        var queryValue = $("#query").val();
-        if(queryValue ===""){
-            window.alert("Enter a query!");
-        } else {
-             var url = "/admin/search-results/"+ queryValue;
-             window.location.replace(url);
-        }
+        $('#searchBtn').on('click', function () {
+            var queryValue = $("#query").val();
+            if (queryValue === "") {
+                window.alert("Enter a query!");
+            } else {
+                var url = "/admin/search-results/" + queryValue;
+                window.location.replace(url);
+            }
 
-    });
+        });
 
-</script>
-     
+    </script>
+
     {% block content %}
     {% endblock content %}
 

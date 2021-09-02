@@ -54,8 +54,8 @@ label {
     color: var(--bg-color);
 }
 
-form {
+/* form {
     display: flex;
     flex-direction: column;
     width: 100%;
-}
+} */
